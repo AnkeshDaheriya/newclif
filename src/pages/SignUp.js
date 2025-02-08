@@ -1,25 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import FooterOne from "../common/footer/FooterOne";
 import HeaderFour from "../common/header/HeaderFour";
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
+// Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAABWVHcf0TTRvkcDpmhw9pAgFFRlgUteY",
+  authDomain: "clif-864a1.firebaseapp.com",
+  projectId: "clif-864a1",
+  storageBucket: "clif-864a1.firebasestorage.app",
+  messagingSenderId: "275052466574",
+  appId: "1:275052466574:web:aa2752b7634990818b54df",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 const SignUp = () => {
+  const navigate = useNavigate();
+
   const initialValues = {
     firstname: "",
-    lastname: "", // Last name
-    email: "", // Email
-    password: "", // Password
-    cpassword: "", // Confirm password
-    otp: "", // One-time password
-    education: "", // Desired Location country (dropdown)
-    yearOfCompletion: "", // Desired Location city (dropdown)
-    professionalDomain: "", // Professional Domain (dropdown)
-    currentRole: "", // Current Role (dropdown)
-    currentSalary: "", // Current Salary (input field)
-    desiredRole: "", // Desired Role (dropdown)
-    desiredSalary: "", // Desired Salary (input field)
-    linkedinUrl: "", // LinkedIn URL (input field)
-    fileUpload: "", // File Upload (input field)
+    lastname: "",
+    email: "",
+    password: "",
+    cpassword: "",
+    otp: "",
+    education: "",
+    yearOfCompletion: "",
+    professionalDomain: "",
+    currentRole: "",
+    currentSalary: "",
+    desiredRole: "",
+    desiredSalary: "",
+    linkedinUrl: "",
+    fileUpload: "",
   };
 
   const [formValues, setFormValues] = useState(initialValues);
@@ -30,18 +48,46 @@ const SignUp = () => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    console.log(formValues);
     if (files && files[0]) {
-      // Handle file input
       setFormValues((prevValues) => ({
         ...prevValues,
-        [name]: files[0], // store the file object in the state
+        [name]: files[0],
       }));
     } else {
-      // Handle text input
       setFormValues((prevValues) => ({
         ...prevValues,
-        [name]: value, // store the text value in the state
+        [name]: value,
+      }));
+    }
+  };
+
+  // Add Google Sign Up handler
+  const handleGoogleSignUp = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const { email, displayName } = result.user;
+
+      // Split display name into first and last name
+      const nameParts = displayName.split(" ");
+      const firstName = nameParts[0];
+      const lastName = nameParts.length > 1 ? nameParts[1] : "";
+
+      // Update form values with Google data
+      setFormValues((prev) => ({
+        ...prev,
+        firstname: firstName,
+        lastname: lastName,
+        email: email,
+      }));
+
+      // Set OTP as verified since Google auth is already verified
+      setOtpVerified(true);
+    } catch (error) {
+      console.error("Google sign up error:", error);
+      setFormErrors((prev) => ({
+        ...prev,
+        google: "Google sign up failed. Please try again.",
       }));
     }
   };
@@ -53,10 +99,8 @@ const SignUp = () => {
 
     if (Object.keys(errors).length === 0) {
       if (!otpSent) {
-        // Call API to send OTP
         sendOtp(formValues.email);
       } else if (otpSent && !otpVerified) {
-        // Call API to verify OTP
         verifyOtp(formValues.email, formValues.otp);
       }
     }
@@ -69,16 +113,13 @@ const SignUp = () => {
   }, [formErrors]);
 
   const sendOtp = (email) => {
-    // Replace with actual API call
     console.log("Sending OTP to", email);
     setOtpSent(true);
   };
 
   const verifyOtp = (email, otp) => {
-    // Replace with actual API call for OTP verification
     console.log(`Verifying OTP ${otp} for ${email}`);
     if (otp === "123456") {
-      // Mock verification
       setOtpVerified(true);
       alert("OTP Verified!");
     } else {
@@ -89,7 +130,6 @@ const SignUp = () => {
   const validate = (values) => {
     const errors = {};
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
     if (!values.firstname) {
       errors.firstname = "Firstname is required";
     }
@@ -121,7 +161,6 @@ const SignUp = () => {
       <div className="section section-padding">
         <div className="container">
           <div className="row justify-content-center">
-            <div>{/* <pre>{JSON.stringify(formValues)}</pre> */}</div>
             <div className="col-xl-8 col-lg-6">
               <div className="contact-form-box shadow-box">
                 {!otpVerified ? (
@@ -130,7 +169,7 @@ const SignUp = () => {
                       <>
                         <h3 className="title text-center">Sign Up</h3>
                         <h5 className="text-center">
-                          Already a member? <Link to="">Sign In</Link>
+                          Already a member? <Link to="/login">Sign In</Link>
                         </h5>
                         <form
                           onSubmit={handleSubmit}
@@ -205,14 +244,36 @@ const SignUp = () => {
                           </div>
                           <p className="text-red">{formErrors.cpassword}</p>
 
-                          <div className="form-group">
+                          <div className="form-group gap-2 flex">
                             <button
                               type="submit"
                               className="axil-btn btn-fill-primary btn-fluid btn-primary"
                               name="submit-btn">
                               Sign Up
                             </button>
+                            <button
+                              type="button"
+                              onClick={handleGoogleSignUp}
+                              className="axil-btn btn-fill-light btn-fluid btn-light"
+                              style={{
+                                height: "46px",
+                                marginTop: "5px",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}>
+                              <img
+                                src="https://www.svgrepo.com/show/452216/google.svg"
+                                alt="Google Icon"
+                                style={{ height: "24px", width: "24px" }}
+                              />
+                            </button>
                           </div>
+                          {formErrors.google && (
+                            <p className="text-red text-center mt-2">
+                              {formErrors.google}
+                            </p>
+                          )}
                         </form>
                       </>
                     ) : (

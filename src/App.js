@@ -42,7 +42,6 @@ import TermsOfUse from "./pages/TermsOfUse";
 import Resource from "./pages/Resource";
 import Dashboard from "./dashboard/pages/Dashboard";
 import CareerPath from "./dashboard/pages/CareerPath";
-import StudentDashboard from "./pages/StudentDashboard";
 
 import "./assets/scss/app.scss";
 
@@ -89,7 +88,6 @@ const App = () => {
           <Route path="/terms-use" element={<TermsOfUse />} />
           <Route path="/resource" element={<Resource />} />
           {/* dashboard routes */}
-          <Route path="/StudentDashboard" element={<StudentDashboard />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/careerpath" element={<CareerPath />} />
         </Routes>
