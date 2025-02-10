@@ -47,6 +47,7 @@ const SignUp = () => {
   const [isSubmit, setIsSubmit] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
+  const [googleVerified, setGoogleVerified] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -79,10 +80,11 @@ const SignUp = () => {
         firstname: firstName,
         lastname: lastName,
         email: email,
+        password: "",
       }));
-
       // Set OTP as verified since Google auth is already verified
       setOtpVerified(true);
+      setGoogleVerified(true);
     } catch (error) {
       console.error("Google sign up error:", error);
       setFormErrors((prev) => ({
@@ -93,10 +95,16 @@ const SignUp = () => {
   };
 
   const handleSubmit = async (e) => {
+    console.log("first", formValues);
     e.preventDefault();
     const errors = validate(formValues);
-    setFormErrors(errors);
 
+    setFormErrors(errors);
+    console.log(googleVerified);
+    if (googleVerified) {
+      setFormErrors({ password: "", cpassword: "" });
+    }
+    console.log("Error", formErrors);
     if (Object.keys(errors).length === 0) {
       if (!otpSent) {
         sendOtp(formValues.email);
@@ -106,12 +114,14 @@ const SignUp = () => {
     }
     if (otpVerified) {
       // **📌 Step 3: Signup API**
+      console.log("test form data", formValues);
       try {
+        console.log("test form data1", formValues);
         const response = await axios.post(
           `${API_BASE_URL}/auth/signup`,
           formValues,
           {
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "multipart/form-data" },
           }
         );
 
@@ -126,6 +136,7 @@ const SignUp = () => {
         alert("Signup failed. Please try again.");
       }
     }
+    console.log(formValues);
   };
 
   useEffect(() => {
@@ -572,9 +583,7 @@ const SignUp = () => {
                               value={formValues.education}
                               onChange={handleChange}
                               required>
-                              <option disabled selected>
-                                Select Your Education
-                              </option>
+                              <option disabled>Select Your Education</option>
                               <option>Undergrad</option>
                               <option>Bachelors</option>
                               <option>Masters</option>
