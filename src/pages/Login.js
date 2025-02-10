@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import emailjs from "@emailjs/browser";
+// import emailjs from "@emailjs/browser";
 import Alert from "react-bootstrap/Alert";
 import HeaderFour from "../common/header/HeaderFour";
 import FooterOne from "../common/footer/FooterOne";
@@ -19,7 +19,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-const baseURL = "http://localhost:3000"; // Backend API URL
+const baseURL = "http://localhost:5000"; // Backend API URL
 
 // Result component to show after successful login/signup
 const Result = () => {
@@ -39,36 +39,38 @@ const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false); // Toggle between signup and login mode
   const [result, showResult] = useState(false);
 
-  // Handle Google Sign-In
   const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     try {
       const loginResult = await signInWithPopup(auth, provider);
-      const { email, displayName } = loginResult.user;
+      console.log("Google Login Success:", loginResult);
 
+      const { email, displayName } = loginResult.user;
       const nameParts = displayName.split(" ");
       const firstName = nameParts[0];
       const lastName = nameParts.length > 1 ? nameParts[1] : "";
 
-      const response = await fetch(`${baseURL}/api/auth/google`, {
+      // Send data to backend
+      console.log("Sending Data to Backend:", { email, firstName, lastName });
+
+      const response = await fetch(`${baseURL}/auth/google`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, firstName, lastName }),
       });
 
+      console.log("Backend Response Status:", response.status);
+      const result = await response.json();
+      console.log("Backend Response Data:", result);
+
       if (!response.ok) throw new Error("Google login failed");
 
-      const result = await response.json();
       localStorage.setItem("user", JSON.stringify(result));
       showResult(true);
-
-      if (result.user.email_verified) {
-        navigate("/dashboard");
-      } else {
-        navigate("/emailverification");
-      }
+      setTimeout(() => navigate("/dashboard"), 1500);
     } catch (err) {
-      setError(err.message);
+      console.error("Google login error:", err.message);
+      setError("Google login failed. Please try again.");
     }
   };
 
@@ -76,7 +78,7 @@ const Login = () => {
   const handleManualLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${baseURL}/api/auth/login`, {
+      const response = await fetch(`${baseURL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -94,27 +96,27 @@ const Login = () => {
   };
 
   // Handle email sending (for forgot password or other purposes)
-  const sendEmail = (e) => {
-    e.preventDefault();
+  // const sendEmail = (e) => {
+  //   e.preventDefault();
 
-    emailjs
-      .sendForm(
-        "service_yj5dgzp",
-        "template_hfduayo",
-        form.current,
-        "WLENsTkBytC0yvItS"
-      )
-      .then(
-        (result) => {
-          console.log(result.text);
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
-    form.current.reset();
-    showResult(true);
-  };
+  //   emailjs
+  //     .sendForm(
+  //       "service_yj5dgzp",
+  //       "template_hfduayo",
+  //       form.current,
+  //       "WLENsTkBytC0yvItS"
+  //     )
+  //     .then(
+  //       (result) => {
+  //         console.log(result.text);
+  //       },
+  //       (error) => {
+  //         console.log(error.text);
+  //       }
+  //     );
+  //   form.current.reset();
+  //   showResult(true);
+  // };
 
   // Hide result message after 5 seconds
   setTimeout(() => {
@@ -185,9 +187,11 @@ const Login = () => {
                         }}>
                         <img
                           src="https://www.svgrepo.com/show/452216/google.svg"
-                          alt="Google Icon"
-                          style={{ height: "24px", width: "24px" }}
+                          alt="Google"
+                          className="mr-2"
+                          style={{ height: "20px" }}
                         />
+                        Sign In with Google
                       </button>
                     </div>
                   </form>

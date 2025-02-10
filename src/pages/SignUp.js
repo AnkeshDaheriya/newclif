@@ -19,9 +19,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
-// API endpoint
-const API_BASE_URL = "http://localhost:5000/";
+const API_BASE_URL = "http://localhost:5000";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -42,16 +40,6 @@ const SignUp = () => {
     desiredSalary: "",
     linkedinUrl: "",
     fileUpload: "",
-    age: "",
-    phone_no: "",
-    gender: "",
-    current_employer: "",
-    desired_employer: "",
-    current_location: "",
-    specialization: "",
-    desiredLocationCountry: "",
-    desiredLocationCity: "",
-    headshot: "",
   };
 
   const [formValues, setFormValues] = useState(initialValues);
@@ -60,7 +48,6 @@ const SignUp = () => {
   const [otpSent, setOtpSent] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
 
-  // Handle form input changes
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (files && files[0]) {
@@ -76,262 +63,139 @@ const SignUp = () => {
     }
   };
 
-  // Handle file upload
-  const handleFileUpload = async (file) => {
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      const response = await axios.post(`${API_BASE_URL}/upload`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      return response.data.fileUrl;
-    } catch (error) {
-      console.error("File upload failed:", error);
-      throw error;
-    }
-  };
-
-  // Handle Google Sign Up
+  // Add Google Sign Up handler
   const handleGoogleSignUp = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      // Add scope for additional profile information
-      provider.addScope("profile");
-      provider.addScope("email");
-
-      // Configure custom parameters
-      provider.setCustomParameters({
-        prompt: "select_account",
-      });
-
       const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      // Extract user details with null checks
-      const email = user.email;
-      const displayName = user.displayName || "";
-      const photoURL = user.photoURL;
+      const { email, displayName } = result.user;
       const nameParts = displayName.split(" ");
-      const firstName = nameParts[0] || "";
-      const lastName = nameParts.length > 1 ? nameParts.slice(1).join(" ") : "";
+      const firstName = nameParts[0];
+      const lastName = nameParts.length > 1 ? nameParts[1] : "";
 
-      // Create user data object
-      const userData = {
+      // Update form values with Google data
+      setFormValues((prev) => ({
+        ...prev,
         firstname: firstName,
         lastname: lastName,
         email: email,
-        photoUrl: photoURL,
-        authProvider: "google",
-        verified: true,
-        createdAt: new Date().toISOString(),
-      };
+      }));
 
-      // Save user data to MongoDB
-      const response = await axios.post(`${API_BASE_URL}/users`, userData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.data.success) {
-        // Store token and user data
-        localStorage.setItem("userToken", response.data.token);
-        localStorage.setItem("userData", JSON.stringify(userData));
-
-        // Update form state
-        setFormValues((prev) => ({
-          ...prev,
-          ...userData,
-        }));
-        setOtpVerified(true);
-
-        // Optionally redirect to next step
-        // navigate('/complete-profile');
-      } else {
-        throw new Error(response.data.message || "Failed to save user data");
-      }
+      // Set OTP as verified since Google auth is already verified
+      setOtpVerified(true);
     } catch (error) {
       console.error("Google sign up error:", error);
-
-      // Handle specific error cases
-      let errorMessage = "Google sign up failed. Please try again.";
-      if (error.code === "auth/popup-blocked") {
-        errorMessage =
-          "Please enable popups for this website to use Google sign-in.";
-      } else if (error.code === "auth/popup-closed-by-user") {
-        errorMessage = "Sign-in was cancelled. Please try again.";
-      } else if (error.code === "auth/cancelled-popup-request") {
-        errorMessage = "Only one sign-in window can be open at a time.";
-      }
-
       setFormErrors((prev) => ({
         ...prev,
-        google: errorMessage,
+        google: "Google sign up failed. Please try again.",
       }));
     }
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = validate(formValues);
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      if (!otpSent && !otpVerified) {
-        await sendOtp(formValues.email);
+      if (!otpSent) {
+        sendOtp(formValues.email);
       } else if (otpSent && !otpVerified) {
-        await verifyOtp(formValues.email, formValues.otp);
-      } else if (otpVerified) {
-        try {
-          // Handle file uploads
-          let fileUrl = null;
-          let headshotUrl = null;
-
-          if (formValues.fileUpload) {
-            fileUrl = await handleFileUpload(formValues.fileUpload);
+        verifyOtp(formValues.email, formValues.otp);
+      }
+    }
+    if (otpVerified) {
+      // **📌 Step 3: Signup API**
+      try {
+        const response = await axios.post(
+          `${API_BASE_URL}/auth/signup`,
+          formValues,
+          {
+            headers: { "Content-Type": "application/json" },
           }
+        );
 
-          if (formValues.headshot) {
-            headshotUrl = await handleFileUpload(formValues.headshot);
-          }
-
-          // Prepare user data
-          const userData = {
-            ...formValues,
-            fileUrl,
-            headshotUrl,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          };
-
-          // Save to MongoDB
-          const response = await axios.post(
-            `${API_BASE_URL}/users/complete-profile`,
-            userData,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-              },
-            }
-          );
-
-          if (response.data.success) {
-            navigate("/dashboard");
-          } else {
-            throw new Error("Failed to save profile data");
-          }
-        } catch (error) {
-          console.error("Profile submission error:", error);
-          setFormErrors((prev) => ({
-            ...prev,
-            submit: "Failed to save profile. Please try again.",
-          }));
+        if (response.data.success) {
+          alert("Signup Successful!");
+          navigate("/dashboard");
+        } else {
+          throw new Error("Signup Failed");
         }
+      } catch (error) {
+        console.error("Signup Error:", error);
+        alert("Signup failed. Please try again.");
       }
     }
   };
 
-  // Send OTP
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      console.log(formValues);
+    }
+  }, [formErrors]);
+
   const sendOtp = async (email) => {
     try {
       const response = await axios.post(`${API_BASE_URL}/auth/send-otp`, {
         email,
       });
+
       if (response.data.success) {
         setOtpSent(true);
+        alert("OTP Sent Successfully!");
       } else {
         throw new Error("Failed to send OTP");
       }
     } catch (error) {
-      console.error("OTP send error:", error);
-      setFormErrors((prev) => ({
-        ...prev,
-        email: "Failed to send OTP. Please try again.",
-      }));
+      console.error("OTP Send Error:", error);
+      alert("Error sending OTP. Please try again.");
     }
   };
 
-  // Verify OTP
   const verifyOtp = async (email, otp) => {
     try {
       const response = await axios.post(`${API_BASE_URL}/auth/verify-otp`, {
         email,
         otp,
       });
+
       if (response.data.success) {
         setOtpVerified(true);
-        localStorage.setItem("userToken", response.data.token);
+        alert("OTP Verified Successfully!");
       } else {
         throw new Error("Invalid OTP");
       }
     } catch (error) {
-      console.error("OTP verification error:", error);
-      setFormErrors((prev) => ({
-        ...prev,
-        otp: "Invalid OTP. Please try again.",
-      }));
+      console.error("OTP Verification Error:", error);
+      alert("Invalid OTP. Please try again.");
     }
   };
 
-  // Form validation
   const validate = (values) => {
     const errors = {};
     const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
     if (!values.firstname) {
-      errors.firstname = "First name is required";
+      errors.firstname = "Firstname is required";
     }
     if (!values.lastname) {
-      errors.lastname = "Last name is required";
+      errors.lastname = "Lastname is required";
     }
     if (!values.email) {
       errors.email = "Email is required";
     } else if (!regex.test(values.email)) {
-      errors.email = "Invalid email format";
+      errors.email = "Email is invalid";
     }
-    if (!otpVerified) {
-      if (!values.password) {
-        errors.password = "Password is required";
-      }
-      if (!values.cpassword) {
-        errors.cpassword = "Confirm password is required";
-      } else if (values.password !== values.cpassword) {
-        errors.cpassword = "Passwords do not match";
-      }
+    if (!otpSent && !values.password) {
+      errors.password = "Password is required";
+    }
+    if (!otpSent && !values.cpassword) {
+      errors.cpassword = "Confirm password is required";
+    } else if (values.password !== values.cpassword) {
+      errors.cpassword = "Passwords do not match";
     }
     if (otpSent && !values.otp) {
       errors.otp = "OTP is required";
     }
-
-    // Additional validations for verified users
-    if (otpVerified) {
-      if (!values.education) {
-        errors.education = "Education is required";
-      }
-      if (!values.professionalDomain) {
-        errors.professionalDomain = "Professional domain is required";
-      }
-      if (!values.currentRole) {
-        errors.currentRole = "Current role is required";
-      }
-      if (!values.currentSalary) {
-        errors.currentSalary = "Current salary is required";
-      }
-      if (!values.desiredRole) {
-        errors.desiredRole = "Desired role is required";
-      }
-      if (!values.desiredSalary) {
-        errors.desiredSalary = "Desired salary is required";
-      }
-      if (!values.linkedinUrl) {
-        errors.linkedinUrl = "LinkedIn URL is required";
-      }
-    }
-
     return errors;
   };
 
@@ -349,7 +213,8 @@ const SignUp = () => {
                       <>
                         <h3 className="title text-center">Sign Up</h3>
                         <h5 className="text-center">
-                          Already a member? <Link to="/login">Sign In</Link>
+                          Already a member?
+                          <Link to="/login">Sign In</Link>
                         </h5>
                         <form
                           onSubmit={handleSubmit}
@@ -519,6 +384,7 @@ const SignUp = () => {
                               name="firstname"
                               value={formValues.firstname}
                               onChange={handleChange}
+                              required
                             />
                           </div>
                           <p className="text-red">{formErrors.firstname}</p>
@@ -535,6 +401,7 @@ const SignUp = () => {
                               name="lastname"
                               value={formValues.lastname}
                               onChange={handleChange}
+                              required
                             />
                           </div>
                           <p className="text-red">{formErrors.lastname}</p>
@@ -548,6 +415,7 @@ const SignUp = () => {
                               className="form-control"
                               name="headshot"
                               onChange={handleChange}
+                              required
                             />
                           </div>
                           <p className="text-red">{formErrors.headshot}</p>
@@ -575,6 +443,7 @@ const SignUp = () => {
                                   value={age}
                                   onChange={handleChange}
                                   className="form-check-input"
+                                  required
                                 />
                                 <label
                                   htmlFor={`age${index}`}
@@ -598,6 +467,7 @@ const SignUp = () => {
                               name="phone_no"
                               value={formValues.phone_no}
                               onChange={handleChange}
+                              required
                             />
                           </div>
                           <p className="text-red">{formErrors.phone_no}</p>
@@ -617,6 +487,7 @@ const SignUp = () => {
                                     value={gender}
                                     onChange={handleChange}
                                     className="form-check-input"
+                                    required
                                   />
                                   <label
                                     htmlFor={`gender${index}`}
@@ -643,6 +514,7 @@ const SignUp = () => {
                               name="current_employer"
                               value={formValues.current_employer}
                               onChange={handleChange}
+                              required
                             />
                           </div>
                           <p className="text-red">
@@ -661,6 +533,7 @@ const SignUp = () => {
                               name="desired_employer"
                               value={formValues.desired_employer}
                               onChange={handleChange}
+                              required
                             />
                           </div>
                           <p className="text-red">
@@ -679,6 +552,7 @@ const SignUp = () => {
                               name="current_location"
                               value={formValues.current_location}
                               onChange={handleChange}
+                              required
                             />
                           </div>
                           <p className="text-red">
@@ -696,8 +570,9 @@ const SignUp = () => {
                               name="education"
                               className="form-control"
                               value={formValues.education}
-                              onChange={handleChange}>
-                              <option value="" disabled>
+                              onChange={handleChange}
+                              required>
+                              <option disabled selected>
                                 Select Your Education
                               </option>
                               <option>Undergrad</option>
@@ -718,7 +593,8 @@ const SignUp = () => {
                               name="yearOfCompletion"
                               value={formValues.yearOfCompletion}
                               onChange={handleChange}
-                              className="form-control">
+                              className="form-control"
+                              required>
                               <option value="" disabled>
                                 Select Year of Completion
                               </option>
@@ -749,6 +625,7 @@ const SignUp = () => {
                               onChange={handleChange}
                               className="form-control"
                               placeholder="Enter your specialization"
+                              required
                             />
                           </div>
                           <p className="text-red">
@@ -765,7 +642,8 @@ const SignUp = () => {
                               name="desiredLocationCountry"
                               className="form-control"
                               value={formValues.desiredLocationCountry}
-                              onChange={handleChange}>
+                              onChange={handleChange}
+                              required>
                               <option value="" disabled>
                                 Select country
                               </option>
@@ -789,7 +667,8 @@ const SignUp = () => {
                               name="desiredLocationCity"
                               className="form-control"
                               value={formValues.desiredLocationCity}
-                              onChange={handleChange}>
+                              onChange={handleChange}
+                              required>
                               <option value="" disabled>
                                 Select city
                               </option>
@@ -817,7 +696,8 @@ const SignUp = () => {
                               name="professionalDomain"
                               className="form-control"
                               value={formValues.professionalDomain}
-                              onChange={handleChange}>
+                              onChange={handleChange}
+                              required>
                               <option value="" disabled>
                                 Select Your Professional Domain
                               </option>
@@ -854,7 +734,8 @@ const SignUp = () => {
                               name="currentRole"
                               className="form-control"
                               value={formValues.currentRole}
-                              onChange={handleChange}>
+                              onChange={handleChange}
+                              required>
                               <option value="" disabled>
                                 Select Your Current Role
                               </option>
@@ -902,6 +783,7 @@ const SignUp = () => {
                               className="form-control"
                               value={formValues.currentSalary}
                               onChange={handleChange}
+                              required
                             />
                             {formErrors.currentSalary && (
                               <p className="text-red">
@@ -920,7 +802,8 @@ const SignUp = () => {
                               name="desiredRole"
                               className="form-control"
                               value={formValues.desiredRole}
-                              onChange={handleChange}>
+                              onChange={handleChange}
+                              required>
                               <option value="" disabled>
                                 Select Your Desired Role
                               </option>
@@ -968,6 +851,7 @@ const SignUp = () => {
                               className="form-control"
                               value={formValues.desiredSalary}
                               onChange={handleChange}
+                              required
                             />
                             {formErrors.desiredSalary && (
                               <p className="text-red">
@@ -989,6 +873,7 @@ const SignUp = () => {
                               placeholder="https://www.linkedin.com/in/your-profile"
                               value={formValues.linkedinUrl}
                               onChange={handleChange}
+                              required
                             />
                             {formErrors.linkedinUrl && (
                               <p className="text-red">
@@ -1006,6 +891,7 @@ const SignUp = () => {
                               name="fileUpload"
                               className="form-control"
                               onChange={handleChange}
+                              required
                             />
                             {formErrors.fileUpload && (
                               <p className="text-red">
@@ -1017,12 +903,12 @@ const SignUp = () => {
                       </div>
 
                       <div className="form-group">
-                        <Link
-                          to={process.env.PUBLIC_URL + "/dashboard"}
-                          className="axil-btn btn-fill-primary btn-fluid btn-primary"
-                          name="submit-btn">
+                        <button
+                          name="submit-btn"
+                          type="submit"
+                          className="axil-btn btn-fill-primary btn-fluid btn-primary">
                           Continue
-                        </Link>
+                        </button>
                       </div>
                     </form>
                   </div>
