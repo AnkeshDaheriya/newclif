@@ -36,7 +36,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [isSignUp, setIsSignUp] = useState(false); // Toggle between signup and login mode
   const [result, showResult] = useState(false);
 
   const handleGoogleSignIn = async () => {
@@ -59,12 +58,11 @@ const Login = () => {
         body: JSON.stringify({ email, firstName, lastName }),
       });
 
-      console.log("Backend Response Status:", response.status);
+      // console.log("Backend Response Status:", response.status);
       const result = await response.json();
-      console.log("Backend Response Data:", result);
+      // console.log("Backend Response Data:", result);
 
       if (!response.ok) throw new Error("Google login failed");
-
       localStorage.setItem("user", JSON.stringify(result));
       showResult(true);
       setTimeout(() => navigate("/dashboard"), 1500);
@@ -83,9 +81,7 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
-      if (!response.ok) throw new Error("Invalid credentials");
-
+      if (!response.ok) throw new Error("Invalid scredentials");
       const result = await response.json();
       localStorage.setItem("user", JSON.stringify(result));
       showResult(true);
@@ -118,7 +114,6 @@ const Login = () => {
   //   showResult(true);
   // };
 
-  // Hide result message after 5 seconds
   setTimeout(() => {
     showResult(false);
   }, 5000);

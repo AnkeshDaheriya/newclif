@@ -95,16 +95,16 @@ const SignUp = () => {
   };
 
   const handleSubmit = async (e) => {
-    console.log("first", formValues);
+    // console.log("first", formValues);
     e.preventDefault();
     const errors = validate(formValues);
 
     setFormErrors(errors);
-    console.log(googleVerified);
+    // console.log(googleVerified);
     if (googleVerified) {
       setFormErrors({ password: "", cpassword: "" });
     }
-    console.log("Error", formErrors);
+    // console.log("Error", formErrors);
     if (Object.keys(errors).length === 0) {
       if (!otpSent) {
         sendOtp(formValues.email);
@@ -114,9 +114,9 @@ const SignUp = () => {
     }
     if (otpVerified) {
       // **📌 Step 3: Signup API**
-      console.log("test form data", formValues);
+      // console.log("test form data", formValues);
       try {
-        console.log("test form data1", formValues);
+        // console.log("test form data1", formValues);
         const response = await axios.post(
           `${API_BASE_URL}/auth/signup`,
           formValues,
@@ -128,7 +128,16 @@ const SignUp = () => {
         if (response.data.success) {
           alert("Signup Successful!");
           navigate("/dashboard");
+        } else if (response.data) {
+          if (response.data.status === 409) {
+            alert(response.data.message);
+            // console.log(response.data.message);
+          }
+          if (response.data.status === 400) {
+            alert(response.data.message);
+          }
         } else {
+          console.log("error", response.data);
           throw new Error("Signup Failed");
         }
       } catch (error) {
@@ -136,7 +145,7 @@ const SignUp = () => {
         alert("Signup failed. Please try again.");
       }
     }
-    console.log(formValues);
+    // console.log(formValues);
   };
 
   useEffect(() => {
@@ -323,6 +332,7 @@ const SignUp = () => {
                                 alt="Google Icon"
                                 style={{ height: "24px", width: "24px" }}
                               />
+                              Sign Up with Google
                             </button>
                           </div>
                           {formErrors.google && (
