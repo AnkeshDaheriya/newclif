@@ -2,12 +2,7 @@ import React from "react";
 
 const SearchBar = () => {
   return (
-    <div>
-      <div
-        className="modal fade"
-        id="exampleModal"
-        tabIndex={-1}
-        aria-hidden="true">
+     
         <div className="modal-dialog modal-dialog-scrollable modal-lg">
           <div className="modal-content rounded-1">
             <div className="modal-header border-bottom">
@@ -116,8 +111,6 @@ const SearchBar = () => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
   );
 };
 

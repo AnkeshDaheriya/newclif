@@ -2,6 +2,61 @@ import React from "react";
 function Header() {
   return (
     <>
+      <style>
+        {`
+          .navbar-nav .nav-link {
+            color: #6600CC !important;
+            transition: all 0.3s ease;
+            position: relative;
+          }
+
+          .navbar-nav .nav-link:hover {
+            color: #8033D9 !important;
+            transform: translateY(-2px);
+          }
+           
+
+          .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #6600CC;
+            transition: width 0.3s ease;
+          }
+
+          .nav-link:hover::after {
+            width: 100%;
+          }
+
+          .nav-icon-hover-bg:hover {
+            background-color: rgba(102, 0, 204, 0.1);
+          }
+
+          .bg-hover-primary:hover {
+            color: #6600CC !important;
+            background-color: rgba(102, 0, 204, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+          }
+
+          .text-bg-light {
+            background-color: rgba(102, 0, 204, 0.1) !important;
+          }
+
+          .navbar-nav .btn-primary {
+            background-color: #6600CC !important;
+            border-color: #6600CC !important;
+          }
+
+          .navbar-nav .btn-primary:hover {
+            background-color: #8033D9 !important;
+            border-color: #8033D9 !important;
+          }
+        `}
+      </style>
       {/*  Header Start */}
       <header className="topbar">
         <div className="with-vertical">
@@ -9,6 +64,7 @@ function Header() {
           {/* Start Vertical Layout Header */}
           {/* ---------------------------------- */}
           <nav className="navbar navbar-expand-lg p-0">
+
             <ul className="navbar-nav">
               <li className="nav-item nav-icon-hover-bg rounded-circle ms-n2">
                 <a
@@ -311,16 +367,6 @@ function Header() {
                   Chat
                 </a>
               </li>
-              <li className="nav-item dropdown-hover d-none d-lg-block">
-                <a className="nav-link" href="./main/app-calendar.html">
-                  Calendar
-                </a>
-              </li>
-              <li className="nav-item dropdown-hover d-none d-lg-block">
-                <a className="nav-link" href="./main/app-email.html">
-                  Email
-                </a>
-              </li>
             </ul>
             <div className="d-block d-lg-none py-4">
               <a href="./main/index.html" className="text-nowrap logo-img">
@@ -355,248 +401,7 @@ function Header() {
                   <i className="ti ti-align-justified fs-7" />
                 </a>
                 <ul className="navbar-nav flex-row ms-auto align-items-center justify-content-center">
-                  {/* ------------------------------- */}
-                  {/* start language Dropdown */}
-                  {/* ------------------------------- */}
 
-                  <li className="nav-item nav-icon-hover-bg rounded-circle dropdown">
-                    <a
-                      className="nav-link"
-                      href="#"
-                      id="drop2"
-                      aria-expanded="false">
-                      <img
-                        src="./assets/images/svgs/icon-flag-en.svg"
-                        alt="modernize-img"
-                        width="20px"
-                        height="20px"
-                        className="rounded-circle object-fit-cover round-20"
-                      />
-                    </a>
-                    <div
-                      className="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
-                      aria-labelledby="drop2">
-                      <div className="message-body">
-                        <a
-                          href="#"
-                          className="d-flex align-items-center gap-2 py-3 px-4 dropdown-item">
-                          <div className="position-relative">
-                            <img
-                              src="./assets/images/svgs/icon-flag-en.svg"
-                              alt="modernize-img"
-                              width="20px"
-                              height="20px"
-                              className="rounded-circle object-fit-cover round-20"
-                            />
-                          </div>
-                          <p className="mb-0 fs-3">English (UK)</p>
-                        </a>
-                        <a
-                          href="#"
-                          className="d-flex align-items-center gap-2 py-3 px-4 dropdown-item">
-                          <div className="position-relative">
-                            <img
-                              src="./assets/images/svgs/icon-flag-cn.svg"
-                              alt="modernize-img"
-                              width="20px"
-                              height="20px"
-                              className="rounded-circle object-fit-cover round-20"
-                            />
-                          </div>
-                          <p className="mb-0 fs-3">中国人 (Chinese)</p>
-                        </a>
-                        <a
-                          href="#"
-                          className="d-flex align-items-center gap-2 py-3 px-4 dropdown-item">
-                          <div className="position-relative">
-                            <img
-                              src="./assets/images/svgs/icon-flag-fr.svg"
-                              alt="modernize-img"
-                              width="20px"
-                              height="20px"
-                              className="rounded-circle object-fit-cover round-20"
-                            />
-                          </div>
-                          <p className="mb-0 fs-3">français (French)</p>
-                        </a>
-                        <a
-                          href="#"
-                          className="d-flex align-items-center gap-2 py-3 px-4 dropdown-item">
-                          <div className="position-relative">
-                            <img
-                              src="./assets/images/svgs/icon-flag-sa.svg"
-                              alt="modernize-img"
-                              width="20px"
-                              height="20px"
-                              className="rounded-circle object-fit-cover round-20"
-                            />
-                          </div>
-                          <p className="mb-0 fs-3">عربي (Arabic)</p>
-                        </a>
-                      </div>
-                    </div>
-                  </li>
-                  {/* ------------------------------- */}
-                  {/* end language Dropdown */}
-
-                  {/* start notification Dropdown */}
-                  {/* ------------------------------- */}
-                  <li className="nav-item nav-icon-hover-bg rounded-circle dropdown">
-                    <a
-                      className="nav-link position-relative"
-                      href="#"
-                      id="drop2"
-                      aria-expanded="false">
-                      <i className="ti ti-bell-ringing" />
-                      <div className="notification bg-primary rounded-circle" />
-                    </a>
-                    <div
-                      className="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up"
-                      aria-labelledby="drop2">
-                      <div className="d-flex align-items-center justify-content-between py-3 px-7">
-                        <h5 className="mb-0 fs-5 fw-semibold">Notifications</h5>
-                        <span className="badge text-bg-primary rounded-4 px-3 py-1 lh-sm">
-                          5 new
-                        </span>
-                      </div>
-                      <div className="message-body" data-simplebar="">
-                        <a
-                          href="#"
-                          className="py-6 px-7 d-flex align-items-center dropdown-item">
-                          <span className="me-3">
-                            <img
-                              src="./assets/images/profile/user-2.jpg"
-                              alt="user"
-                              className="rounded-circle"
-                              width={48}
-                              height={48}
-                            />
-                          </span>
-                          <div className="w-100">
-                            <h6 className="mb-1 fw-semibold lh-base">
-                              Roman Joined the Team!
-                            </h6>
-                            <span className="fs-2 d-block text-body-secondary">
-                              Congratulate him
-                            </span>
-                          </div>
-                        </a>
-                        <a
-                          href="#"
-                          className="py-6 px-7 d-flex align-items-center dropdown-item">
-                          <span className="me-3">
-                            <img
-                              src="./assets/images/profile/user-3.jpg"
-                              alt="user"
-                              className="rounded-circle"
-                              width={48}
-                              height={48}
-                            />
-                          </span>
-                          <div className="w-100">
-                            <h6 className="mb-1 fw-semibold lh-base">
-                              New message
-                            </h6>
-                            <span className="fs-2 d-block text-body-secondary">
-                              Salma sent you new message
-                            </span>
-                          </div>
-                        </a>
-                        <a
-                          href="#"
-                          className="py-6 px-7 d-flex align-items-center dropdown-item">
-                          <span className="me-3">
-                            <img
-                              src="./assets/images/profile/user-4.jpg"
-                              alt="user"
-                              className="rounded-circle"
-                              width={48}
-                              height={48}
-                            />
-                          </span>
-                          <div className="w-100">
-                            <h6 className="mb-1 fw-semibold lh-base">
-                              Bianca sent payment
-                            </h6>
-                            <span className="fs-2 d-block text-body-secondary">
-                              Check your earnings
-                            </span>
-                          </div>
-                        </a>
-                        <a
-                          href="#"
-                          className="py-6 px-7 d-flex align-items-center dropdown-item">
-                          <span className="me-3">
-                            <img
-                              src="./assets/images/profile/user-5.jpg"
-                              alt="user"
-                              className="rounded-circle"
-                              width={48}
-                              height={48}
-                            />
-                          </span>
-                          <div className="w-100">
-                            <h6 className="mb-1 fw-semibold lh-base">
-                              Jolly completed tasks
-                            </h6>
-                            <span className="fs-2 d-block text-body-secondary">
-                              Assign her new tasks
-                            </span>
-                          </div>
-                        </a>
-                        <a
-                          href="#"
-                          className="py-6 px-7 d-flex align-items-center dropdown-item">
-                          <span className="me-3">
-                            <img
-                              src="./assets/images/profile/user-6.jpg"
-                              alt="user"
-                              className="rounded-circle"
-                              width={48}
-                              height={48}
-                            />
-                          </span>
-                          <div className="w-100">
-                            <h6 className="mb-1 fw-semibold lh-base">
-                              John received payment
-                            </h6>
-                            <span className="fs-2 d-block text-body-secondary">
-                              $230 deducted from account
-                            </span>
-                          </div>
-                        </a>
-                        <a
-                          href="#"
-                          className="py-6 px-7 d-flex align-items-center dropdown-item">
-                          <span className="me-3">
-                            <img
-                              src="./assets/images/profile/user-7.jpg"
-                              alt="user"
-                              className="rounded-circle"
-                              width={48}
-                              height={48}
-                            />
-                          </span>
-                          <div className="w-100">
-                            <h6 className="mb-1 fw-semibold lh-base">
-                              Roman Joined the Team!
-                            </h6>
-                            <span className="fs-2 d-block text-body-secondary">
-                              Congratulate him
-                            </span>
-                          </div>
-                        </a>
-                      </div>
-                      <div className="py-6 px-7 mb-1">
-                        <button className="btn btn-outline-primary w-100">
-                          See All Notifications
-                        </button>
-                      </div>
-                    </div>
-                  </li>
-                  {/* ------------------------------- */}
-                  {/* end notification Dropdown */}
-                  {/* ------------------------------- */}
                   {/* ------------------------------- */}
                   {/* start profile Dropdown */}
                   {/* ------------------------------- */}
@@ -746,10 +551,7 @@ function Header() {
               </div>
             </div>
           </nav>
-          {/* ---------------------------------- */}
-          {/* End Vertical Layout Header */}
-          {/* ---------------------------------- */}
-          {/* ------------------------------- */}
+
           {/* apps Dropdown in Small screen */}
           {/* ------------------------------- */}
           {/*  Mobilenavbar */}
@@ -1035,28 +837,6 @@ function Header() {
                         <i className="ti ti-message-dots" />
                       </span>
                       <span className="hide-menu">Chat</span>
-                    </a>
-                  </li>
-                  <li className="sidebar-item">
-                    <a
-                      className="sidebar-link"
-                      href="./main/app-calendar.html"
-                      aria-expanded="false">
-                      <span>
-                        <i className="ti ti-calendar" />
-                      </span>
-                      <span className="hide-menu">Calendar</span>
-                    </a>
-                  </li>
-                  <li className="sidebar-item">
-                    <a
-                      className="sidebar-link"
-                      href="./main/app-email.html"
-                      aria-expanded="false">
-                      <span>
-                        <i className="ti ti-mail" />
-                      </span>
-                      <span className="hide-menu">Email</span>
                     </a>
                   </li>
                 </ul>
@@ -1382,16 +1162,6 @@ function Header() {
               <li className="nav-item dropdown-hover d-none d-lg-block">
                 <a className="nav-link" href="./main/app-chat.html">
                   Chat
-                </a>
-              </li>
-              <li className="nav-item dropdown-hover d-none d-lg-block">
-                <a className="nav-link" href="./main/app-calendar.html">
-                  Calendar
-                </a>
-              </li>
-              <li className="nav-item dropdown-hover d-none d-lg-block">
-                <a className="nav-link" href="./main/app-email.html">
-                  Email
                 </a>
               </li>
             </ul>
