@@ -1,3 +1,4 @@
+import * as bootstrap from 'bootstrap'
 document.addEventListener("DOMContentLoaded", function () {
   "use strict";
 

@@ -44,6 +44,7 @@ import Dashboard from "./dashboard/pages/Dashboard";
 import CareerPath from "./dashboard/pages/CareerPath";
 
 import "./assets/scss/app.scss";
+import SkillAssessment from "./dashboard/pages/SkillAssessment";
 
 const App = () => {
   return (
@@ -89,6 +90,7 @@ const App = () => {
           <Route path="/resource" element={<Resource />} />
           {/* dashboard routes */}
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/skillassessment" element={<SkillAssessment />} />
           <Route path="/careerpath" element={<CareerPath />} />
         </Routes>
       </ScrollToTop>
