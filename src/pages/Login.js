@@ -129,7 +129,10 @@ const Login = () => {
                 <div className="contact-form-box shadow-box ">
                   <h3 className="title text-center">Login</h3>
                   <h5 className="text-center">
-                    New here? <Link to="/signup">Sign Up</Link>
+                    New here?
+                    <Link to="/signup" style={{ color: "#6600CC" }}>
+                      &nbsp; Sign Up
+                    </Link>
                   </h5>
                   <div className="form-group">{result ? <Result /> : null}</div>
                   {error && <Alert variant="danger">{error}</Alert>}

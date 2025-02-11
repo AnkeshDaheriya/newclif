@@ -234,8 +234,36 @@ const SignUp = () => {
                         <h3 className="title text-center">Sign Up</h3>
                         <h5 className="text-center">
                           Already a member?
-                          <Link to="/login">Sign In</Link>
+                          <Link to="/login" style={{ color: "#6600CC" }}>
+                            &nbsp; Sign In
+                          </Link>
                         </h5>
+                        <button
+                          type="button"
+                          onClick={handleGoogleSignUp}
+                          className="axil-btn btn-fill-light btn-fluid btn-light"
+                          style={{
+                            height: "46px",
+                            marginTop: "5px",
+                            marginBottom: "6px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            backgroundColor: "#FFFFFF",
+                          }}>
+                          <img
+                            src="https://www.svgrepo.com/show/452216/google.svg"
+                            alt="Google Icon"
+                            style={{ height: "24px", width: "24px" }}
+                          />
+                          &nbsp; Continue with Google
+                        </button>
+                        <div className="d-flex align-items-center justify-content-center my-3 mt-5">
+                          <hr className="flex-grow-1" />
+                          <span className="mx-2">or</span>
+                          <hr className="flex-grow-1" />
+                        </div>
+
                         <form
                           onSubmit={handleSubmit}
                           className="axil-contact-form">
@@ -308,6 +336,30 @@ const SignUp = () => {
                             />
                           </div>
                           <p className="text-red">{formErrors.cpassword}</p>
+                          <div className="form-group text-start">
+                            <div className="form-check">
+                              <input
+                                type="checkbox"
+                                className="form-check-input"
+                                id="checkbox"
+                                name="checkbox"
+                                required
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="checkbox">
+                                I agree to the with{" "}
+                                <Link to="">
+                                  <u> Terms of services </u>
+                                </Link>{" "}
+                                and{" "}
+                                <Link to="">
+                                  {" "}
+                                  <u>privacy policy</u>{" "}
+                                </Link>
+                              </label>
+                            </div>
+                          </div>
 
                           <div className="form-group gap-2 flex">
                             <button
@@ -316,25 +368,8 @@ const SignUp = () => {
                               name="submit-btn">
                               Sign Up
                             </button>
-                            <button
-                              type="button"
-                              onClick={handleGoogleSignUp}
-                              className="axil-btn btn-fill-light btn-fluid btn-light"
-                              style={{
-                                height: "46px",
-                                marginTop: "5px",
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                              }}>
-                              <img
-                                src="https://www.svgrepo.com/show/452216/google.svg"
-                                alt="Google Icon"
-                                style={{ height: "24px", width: "24px" }}
-                              />
-                              Sign Up with Google
-                            </button>
                           </div>
+
                           {formErrors.google && (
                             <p className="text-red text-center mt-2">
                               {formErrors.google}
