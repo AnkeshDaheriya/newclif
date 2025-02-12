@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom"; // Correct import
 import ScrollToTop from "./component/scrollToTop/ScrollToTop";
-import "bootstrap/dist/css/bootstrap.min.css";
+import "../node_modules/bootstrap/dist/css/bootstrap.css";
 
 // Import your components/pages
 import DigitalAgency from "./pages/DigitalAgency";
@@ -44,6 +44,7 @@ import Dashboard from "./dashboard/pages/Dashboard";
 import CareerPath from "./dashboard/pages/CareerPath";
 
 import "./assets/scss/app.scss";
+import MileStone1 from "./milStones/MileStone1";
 
 const App = () => {
   return (
@@ -90,6 +91,7 @@ const App = () => {
           {/* dashboard routes */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/careerpath" element={<CareerPath />} />
+          <Route path="/mile-stone1" element={<MileStone1/>} />
         </Routes>
       </ScrollToTop>
     </BrowserRouter>
