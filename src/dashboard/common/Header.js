@@ -91,7 +91,7 @@ function Header() {
               <li className="nav-item nav-icon-hover-bg rounded w-auto dropdown d-none d-lg-block mx-0">
                 <div className="hover-dd">
                   <a className="nav-link" href="#">
-                    Apps
+                    Quick Access
                     <span className="mt-1">
                       <i className="ti ti-chevron-down fs-3" />
                     </span>
@@ -118,10 +118,10 @@ function Header() {
                                     </div>
                                     <div>
                                       <h6 className="mb-1 fw-semibold fs-3">
-                                        Chat Application
+                                        Career Graph
                                       </h6>
                                       <span className="fs-2 d-block text-body-secondary">
-                                        New messages arrived
+                                        Get latest career graph 
                                       </span>
                                     </div>
                                   </a>
@@ -139,10 +139,10 @@ function Header() {
                                     </div>
                                     <div>
                                       <h6 className="mb-1 fw-semibold fs-3">
-                                        Invoice App
+                                        Skill Assessment
                                       </h6>
                                       <span className="fs-2 d-block text-body-secondary">
-                                        Get latest invoice
+                                        Assess your skills
                                       </span>
                                     </div>
                                   </a>
@@ -160,10 +160,10 @@ function Header() {
                                     </div>
                                     <div>
                                       <h6 className="mb-1 fw-semibold fs-3">
-                                        Contact Application
+                                        Mentors Connect
                                       </h6>
                                       <span className="fs-2 d-block text-body-secondary">
-                                        2 Unsaved Contacts
+                                        Connect with mentors
                                       </span>
                                     </div>
                                   </a>
@@ -181,10 +181,10 @@ function Header() {
                                     </div>
                                     <div>
                                       <h6 className="mb-1 fw-semibold fs-3">
-                                        Email App
+                                        Video Upload
                                       </h6>
                                       <span className="fs-2 d-block text-body-secondary">
-                                        Get new emails
+                                        Upload video
                                       </span>
                                     </div>
                                   </a>
@@ -227,10 +227,10 @@ function Header() {
                                     </div>
                                     <div>
                                       <h6 className="mb-1 fw-semibold fs-3">
-                                        Calendar App
+                                        Quick Job Search
                                       </h6>
                                       <span className="fs-2 d-block text-body-secondary">
-                                        Get dates
+                                        Search for job
                                       </span>
                                     </div>
                                   </a>
@@ -248,10 +248,10 @@ function Header() {
                                     </div>
                                     <div>
                                       <h6 className="mb-1 fw-semibold fs-3">
-                                        Contact List Table
+                                        Resume Builder
                                       </h6>
                                       <span className="fs-2 d-block text-body-secondary">
-                                        Add new contact
+                                        Build your resume
                                       </span>
                                     </div>
                                   </a>
@@ -269,10 +269,10 @@ function Header() {
                                     </div>
                                     <div>
                                       <h6 className="mb-1 fw-semibold fs-3">
-                                        Notes Application
+                                        Settings
                                       </h6>
                                       <span className="fs-2 d-block text-body-secondary">
-                                        To-do and Daily tasks
+                                        Update settings
                                       </span>
                                     </div>
                                   </a>
@@ -281,7 +281,7 @@ function Header() {
                             </div>
                           </div>
                           <div className="row align-items-center py-3">
-                            <div className="col-8">
+                            <div className="col-6">
                               <a
                                 className="fw-semibold d-flex align-items-center lh-1"
                                 href="#">
@@ -299,62 +299,6 @@ function Header() {
                           </div>
                         </div>
                       </div>
-                      <div className="col-4 ms-n4">
-                        <div className="position-relative p-7 border-start h-100">
-                          <h5 className="fs-5 mb-9 fw-semibold">Quick Links</h5>
-                          <ul className="">
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/page-pricing.html">
-                                Pricing Page
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/authentication-login.html">
-                                Authentication Design
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/authentication-register.html">
-                                Register Now
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/authentication-error.html">
-                                404 Error Page
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/app-notes.html">
-                                Notes App
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/page-user-profile.html">
-                                User Application
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/page-account-settings.html">
-                                Account Settings
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -364,7 +308,7 @@ function Header() {
               {/* ------------------------------- */}
               <li className="nav-item dropdown-hover d-none d-lg-block">
                 <a className="nav-link" href="./main/app-chat.html">
-                  Chat
+                  Quick Help
                 </a>
               </li>
             </ul>
@@ -485,10 +429,10 @@ function Header() {
                             </span>
                             <div className="w-100 ps-3">
                               <h6 className="mb-1 fs-3 fw-semibold lh-base">
-                                My Inbox
+                                My Progress
                               </h6>
                               <span className="fs-2 d-block text-body-secondary">
-                                Messages &amp; Emails
+                                 Progress Report
                               </span>
                             </div>
                           </a>
@@ -505,10 +449,10 @@ function Header() {
                             </span>
                             <div className="w-100 ps-3">
                               <h6 className="mb-1 fs-3 fw-semibold lh-base">
-                                My Task
+                                My Goals
                               </h6>
                               <span className="fs-2 d-block text-body-secondary">
-                                To-do and Daily Tasks
+                                Goals &amp; Tasks
                               </span>
                             </div>
                           </a>
@@ -772,60 +716,6 @@ function Header() {
                           </div>
                         </a>
                       </li>
-                      <ul className="px-8 mt-7 mb-4">
-                        <li className="sidebar-item mb-3">
-                          <h5 className="fs-5 fw-semibold">Quick Links</h5>
-                        </li>
-                        <li className="sidebar-item py-2">
-                          <a
-                            className="fw-semibold text-dark"
-                            href="./main/page-pricing.html">
-                            Pricing Page
-                          </a>
-                        </li>
-                        <li className="sidebar-item py-2">
-                          <a
-                            className="fw-semibold text-dark"
-                            href="./main/authentication-login.html">
-                            Authentication Design
-                          </a>
-                        </li>
-                        <li className="sidebar-item py-2">
-                          <a
-                            className="fw-semibold text-dark"
-                            href="./main/authentication-register.html">
-                            Register Now
-                          </a>
-                        </li>
-                        <li className="sidebar-item py-2">
-                          <a
-                            className="fw-semibold text-dark"
-                            href="./main/authentication-error.html">
-                            404 Error Page
-                          </a>
-                        </li>
-                        <li className="sidebar-item py-2">
-                          <a
-                            className="fw-semibold text-dark"
-                            href="./main/app-notes.html">
-                            Notes App
-                          </a>
-                        </li>
-                        <li className="sidebar-item py-2">
-                          <a
-                            className="fw-semibold text-dark"
-                            href="./main/page-user-profile.html">
-                            User Application
-                          </a>
-                        </li>
-                        <li className="sidebar-item py-2">
-                          <a
-                            className="fw-semibold text-dark"
-                            href="./main/page-account-settings.html">
-                            Account Settings
-                          </a>
-                        </li>
-                      </ul>
                     </ul>
                   </li>
                   <li className="sidebar-item">
@@ -1094,62 +984,6 @@ function Header() {
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                      <div className="col-4 ms-n4">
-                        <div className="position-relative p-7 border-start h-100">
-                          <h5 className="fs-5 mb-9 fw-semibold">Quick Links</h5>
-                          <ul className="">
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/page-pricing.html">
-                                Pricing Page
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/authentication-login.html">
-                                Authentication Design
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/authentication-register.html">
-                                Register Now
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/authentication-error.html">
-                                404 Error Page
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/app-notes.html">
-                                Notes App
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/page-user-profile.html">
-                                User Application
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/page-account-settings.html">
-                                Account Settings
-                              </a>
-                            </li>
-                          </ul>
                         </div>
                       </div>
                     </div>

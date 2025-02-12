@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import Header from "../common/Header";
 import SideBar from "../common/SideBar";
 import SearchBar from "../common/SearchBar";
-
+import TimelineSVG from "../../ROAD VECTOR IMAGE 01.svg"
+import { Graph } from "./Graph";
 const Dashboard = () => {
   return (
     <>
@@ -53,7 +54,7 @@ const Dashboard = () => {
                           opacity: '0.9',
                           fontWeight: '500',
                           fontSize: '1rem'
-                        }}>You're on track to achieve your goals by December 2024</p>
+                        }}>You're on track to achieve your career goal with CLIF AI by <b> December 2026 </b></p>
                       </div>
                     </div>
                   </div>
@@ -64,12 +65,7 @@ const Dashboard = () => {
                   <div className="card">
                     <div className="card-body p-3">
                       <div className="text-center">
-                        <img
-                          src="../../../images/milestone.jpg"
-                          alt="Timeline"
-                          className="img-fluid rounded shadow"
-                          style={{ maxWidth: '100%' }}
-                        />
+                        <Graph />
                       </div>
                     </div>
                   </div>
@@ -78,64 +74,82 @@ const Dashboard = () => {
 
                 {/* Existing Dashboard Components */}
                 <div className="col-lg-4 d-flex align-items-stretch">
-                  <div className="card w-100">
-                    <div className="card-body">
-                      <div>
-                        <h5 className="card-title fw-semibold mb-1">Employee Salary</h5>
-                        <p className="card-subtitle mb-0">Every month</p>
-                        <div className="d-flex align-items-center justify-content-between mt-4">
-                          <div className="d-flex align-items-center">
-                            <div className="bg-primary-subtle rounded me-8 p-8 d-flex align-items-center justify-content-center">
-                              <i className="ti ti-grid-dots text-primary fs-6" />
-                            </div>
-                            <div>
-                              <p className="fs-3 mb-0 fw-normal">Salary</p>
-                              <h6 className="fw-semibold text-dark fs-4 mb-0">$36,358</h6>
-                            </div>
+                  <div className="card w-100 p-2" style={{ maxHeight: "400px", overflow: "hidden" }}>
+                    <div className="card-body p-2">
+                      <h5 className="card-title fw-semibold mb-2 mt-2">Learning Last Month</h5>
+                      <p className="card-subtitle mb-3">July 2025</p>
+                      <div className="mt-2">
+                        <div className="d-flex align-items-center mb-4 mt-2">
+                          <div className="text-bg-light rounded me-2 p-1 d-flex align-items-center justify-content-center">
+                            <i className="ti ti-grid-dots text-muted fs-6" />
                           </div>
-                          <div className="d-flex align-items-center">
-                            <div className="text-bg-light rounded me-8 p-8 d-flex align-items-center justify-content-center">
-                              <i className="ti ti-grid-dots text-muted fs-6" />
-                            </div>
-                            <div>
-                              <p className="fs-3 mb-0 fw-normal">Profit</p>
-                              <h6 className="fw-semibold text-dark fs-4 mb-0">$5,296</h6>
-                            </div>
+                          <div>
+                            <p className="fs-6 mb-1 fw-normal">Total Courses Completed</p>
+                            <h6 className="fw-semibold text-dark fs-6 mb-1">36</h6>
+                          </div>
+                        </div>
+                        <div className="d-flex align-items-center mb-4">
+                          <div className="text-bg-light rounded me-2 p-1 d-flex align-items-center justify-content-center">
+                            <i className="ti ti-grid-dots text-muted fs-6" />
+                          </div>
+                          <div>
+                            <p className="fs-6 mb-1 fw-normal">Total Certificates</p>
+                            <h6 className="fw-semibold text-dark fs-6 mb-1">52</h6>
+                          </div>
+                        </div>
+                        <div className="d-flex align-items-center mb-4">
+                          <div className="text-bg-light rounded me-2 p-1 d-flex align-items-center justify-content-center">
+                            <i className="ti ti-grid-dots text-muted fs-6" />
+                          </div>
+                          <div>
+                            <p className="fs-6 mb-1 fw-normal">Learning Hours</p>
+                            <h6 className="fw-semibold text-dark fs-6 mb-1">120 Hrs</h6>
+                          </div>
+                        </div>
+                        <div className="d-flex align-items-center">
+                          <div className="text-bg-light rounded me-2 p-1 d-flex align-items-center justify-content-center">
+                            <i className="ti ti-grid-dots text-muted fs-6" />
+                          </div>
+                          <div>
+                            <p className="fs-6 mb-0 fw-normal">Mentor Hours</p>
+                            <h6 className="fw-semibold text-dark fs-6 mb-0">98 Hrs</h6>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+
+
                 <div className="col-lg-4 d-flex align-items-stretch">
-                  <div className="card w-100">
+                  <div className="card w-100" style={{ maxHeight: "400px", overflow: "hidden" }}>
                     <div className="card-body">
                       <div>
                         <h5 className="card-title fw-semibold mb-1">
-                          Employee Salary
+                          Potential Career Position
                         </h5>
-                        <p className="card-subtitle mb-0">Every month</p>
+                        <p className="card-subtitle mb-n2">July 2025</p>
                         <div id="salary" className="mb-7 pb-8 mx-n4" />
                         <div className="d-flex align-items-center justify-content-between">
-                          <div className="d-flex align-items-center">
-                            <div className="bg-primary-subtle rounded me-8 p-8 d-flex align-items-center justify-content-center">
-                              <i className="ti ti-grid-dots text-primary fs-6" />
-                            </div>
-                            <div>
-                              <p className="fs-3 mb-0 fw-normal">Salary</p>
-                              <h6 className="fw-semibold text-dark fs-4 mb-0">
-                                $36,358
-                              </h6>
-                            </div>
-                          </div>
-                          <div className="d-flex align-items-center">
+                          <div className="d-flex align-items-center mt-n4">
                             <div className="text-bg-light rounded me-8 p-8 d-flex align-items-center justify-content-center">
                               <i className="ti ti-grid-dots text-muted fs-6" />
                             </div>
                             <div>
-                              <p className="fs-3 mb-0 fw-normal">Profit</p>
-                              <h6 className="fw-semibold text-dark fs-4 mb-0">
-                                $5,296
+                              <p className="fs-3 mb-0 fw-normal">Highest Salary</p>
+                              <h6 className="fw-semibold text-dark fs-5 mb-1">
+                                ₹3.5 Cr
+                              </h6>
+                            </div>
+                          </div>
+                          <div className="d-flex align-items-center mt-n4">
+                            <div className="text-bg-light rounded me-8 p-8 d-flex align-items-center justify-content-center">
+                              <i className="ti ti-grid-dots text-muted fs-6" />
+                            </div>
+                            <div>
+                              <p className="fs-3 mb-0 fw-normal">Average Salary</p>
+                              <h6 className="fw-semibold text-dark fs-5 mb-0">
+                                ₹50 lpa
                               </h6>
                             </div>
                           </div>
@@ -144,17 +158,19 @@ const Dashboard = () => {
                     </div>
                   </div>
                 </div>
+
+
                 <div className="col-lg-4 d-flex align-items-stretch flex-column">
                   <div className="row">
                     {/* Customers */}
                     <div className="col-sm-6 d-flex align-items-stretch">
                       <div className="card w-100">
                         <div className="card-body pb-0 mb-xxl-4 pb-1">
-                          <p className="mb-1 fs-3">Customers</p>
-                          <h4 className="fw-semibold fs-7">36,358</h4>
+                          <p className="mb-1 fs-3">Best Potential Salary Package</p>
+                          <h4 className="fw-semibold fs-7">₹19.3 lpa</h4>
                           <div className="d-flex align-items-center mb-3">
-                            <span className="me-2 rounded-circle bg-danger-subtle round-20 d-flex align-items-center justify-content-center">
-                              <i className="ti ti-arrow-down-right text-danger" />
+                            <span className="me-1 rounded-circle bg-success-subtle round-20 d-flex align-items-center justify-content-center">
+                              <i className="ti ti-arrow-up-left text-success" />
                             </span>
                             <p className="text-dark fs-3 mb-0">+9%</p>
                           </div>
@@ -166,8 +182,8 @@ const Dashboard = () => {
                     <div className="col-sm-6 d-flex align-items-stretch">
                       <div className="card w-100">
                         <div className="card-body">
-                          <p className="mb-1 fs-3">Projects</p>
-                          <h4 className="fw-semibold fs-7">78,298</h4>
+                          <p className="mb-1 fs-3">Average Salary Package</p>
+                          <h4 className="fw-semibold fs-7">₹8.3 lpa</h4>
                           <div className="d-flex align-items-center mb-3">
                             <span className="me-1 rounded-circle bg-success-subtle round-20 d-flex align-items-center justify-content-center">
                               <i className="ti ti-arrow-up-left text-success" />
@@ -180,7 +196,7 @@ const Dashboard = () => {
                     </div>
                   </div>
                   {/* Comming Soon */}
-                  <div className="card">
+                  {/* <div className="card">
                     <div className="card-body">
                       <div className="d-flex align-items-center mb-7 pb-2">
                         <div className="me-3 pe-1">
@@ -253,9 +269,9 @@ const Dashboard = () => {
                         </a>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
-                <div className="col-lg-4 d-flex align-items-stretch">
+                {/* <div className="col-lg-4 d-flex align-items-stretch">
                   <div className="card text-bg-primary border-0 w-100">
                     <div className="card-body pb-0">
                       <h5 className="fw-semibold mb-1 text-white card-title">
@@ -323,8 +339,8 @@ const Dashboard = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-lg-4 d-flex align-items-stretch">
+                </div> */}
+                {/* <div className="col-lg-4 d-flex align-items-stretch">
                   <div className="card w-100">
                     <div className="card-body">
                       <h5 className="card-title fw-semibold">Weekly Stats</h5>
@@ -388,8 +404,8 @@ const Dashboard = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-lg-8 d-flex align-items-stretch">
+                </div> */}
+                {/* <div className="col-lg-8 d-flex align-items-stretch">
                   <div className="card w-100">
                     <div className="card-body">
                       <div className="d-sm-flex d-block align-items-center justify-content-between mb-7">
@@ -598,13 +614,13 @@ const Dashboard = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
         </div>
         {/*  Search Bar */}
-        <SearchBar />
+        {/* <SearchBar /> */}
       </div>
       <div className="dark-transparent sidebartoggler"></div>
     </>

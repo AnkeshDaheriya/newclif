@@ -177,7 +177,7 @@ $(document).ready(function () {
   const salaryConfig = {
     series: [
       {
-        name: "Employee Salary",
+        name: "Salary",
         data: [20, 15, 30, 25, 10, 15],
       },
     ],
@@ -189,12 +189,12 @@ $(document).ready(function () {
       foreColor: "#adb0bb",
     },
     colors: [
-      "var(--bs-primary-bg-subtle)",
-      "var(--bs-primary-bg-subtle)",
-      "var(--bs-primary)",
-      "var(--bs-primary-bg-subtle)",
-      "var(--bs-primary-bg-subtle)",
-      "var(--bs-primary-bg-subtle)",
+      "#7366FF",
+      "#7366FF",
+      "#7366FF",
+      "#7366FF",
+      "#7366FF",
+      "#7366FF",
     ],
     plotOptions: {
       bar: {
@@ -211,7 +211,7 @@ $(document).ready(function () {
       xaxis: { lines: { show: false } },
     },
     xaxis: {
-      categories: [["Apr"], ["May"], ["June"], ["July"], ["Aug"], ["Sept"]],
+      categories: [["Pune"], ["Bombay"], ["Goa"], ["Kochi"], ["Coorg"], ["Delhi"]],
       axisBorder: { show: false },
       axisTicks: { show: false },
     },
@@ -282,7 +282,7 @@ $(document).ready(function () {
       toolbar: { show: false },
       sparkline: { enabled: true },
     },
-    colors: ["var(--bs-primary)"],
+    colors: ["#7366FF"],
     grid: { show: false },
     plotOptions: {
       bar: {
