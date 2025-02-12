@@ -5,6 +5,7 @@ import HeaderFour from "../common/header/HeaderFour";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import axios from "axios";
+import { FaMehBlank } from "react-icons/fa";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -46,8 +47,10 @@ const SignUp = () => {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
+  const [loginSent, setLoginSent] = useState(false);
   const [otpVerified, setOtpVerified] = useState(false);
   const [googleVerified, setGoogleVerified] = useState(false);
+  const [resumeFile, setResumeFile] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -90,6 +93,97 @@ const SignUp = () => {
       setFormErrors((prev) => ({
         ...prev,
         google: "Google sign up failed. Please try again.",
+      }));
+    }
+  };
+
+  const handleFileChange = (e) => {
+    setResumeFile(e.target.files[0]);
+  };
+
+  const handleResumeSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+
+    if (!resumeFile) {
+      setFormErrors((prev) => ({
+        ...prev,
+        resume: "Please upload a resume.",
+      }));
+      return;
+    }
+    const formData = new FormData();
+    formData.append("resume", resumeFile); // Add the resume file to FormData
+
+    try {
+      // Make the API call to upload the resume
+      const response = await fetch(`${API_BASE_URL}/resume/upload`, {
+        method: "POST",
+        body: formData, // Send the FormData containing the resume file
+      });
+      if (!response.ok) {
+        throw new Error("Failed to process resume");
+      }
+
+      const resumeData = await response.json();
+
+      // Assuming the API returns the extracted data like this
+      const { Education, Skills } = resumeData;
+
+      const personalInfo = Skills?.personal_information || {};
+
+      // Get the latest education
+      const latestEducation =
+        Education?.sort((a, b) => b.end_year - a.end_year)[0] || {};
+      // Update form values with extracted data, if available
+      setFormValues((prev) => ({
+        ...prev,
+        // Personal Information
+        firstname: personalInfo.name?.split(" ")[0] || prev.firstname,
+        lastname:
+          personalInfo.name?.split(" ").slice(1).join(" ") || prev.lastname,
+        email: personalInfo.contact?.email || prev.email,
+        phone_no: personalInfo.contact?.phone || prev.phone_no,
+        current_location:
+          personalInfo.contact?.address || prev.current_location,
+
+        // Education
+        education: latestEducation?.degree?.includes("BSC")
+          ? "Bachelors"
+          : latestEducation?.degree?.includes("MCA")
+          ? "Masters"
+          : prev.education,
+        yearOfCompletion:
+          latestEducation?.end_year?.toString() || prev.yearOfCompletion,
+        specialization:
+          latestEducation?.degree?.split("in")[1]?.trim() ||
+          prev.specialization,
+
+        // Skills
+        professionalDomain:
+          Skills?.technical?.length > 0
+            ? "Technology"
+            : prev.professionalDomain,
+
+        // Additional Info
+        age:
+          Skills?.other
+            ?.find((item) => item.includes("DOB"))
+            ?.split(":")[1]
+            ?.trim() || prev.age,
+        gender:
+          Skills?.other
+            ?.find((item) => item.includes("Gender"))
+            ?.split(":")[1]
+            ?.trim() || prev.gender,
+      }));
+      setLoginSent(true);
+      // Return file URL
+      return resumeData?.fileUrl || null;
+    } catch (error) {
+      console.error("Error during resume submission:", error);
+      setFormErrors((prev) => ({
+        ...prev,
+        resume: "Failed to submit resume. Please try again.",
       }));
     }
   };
@@ -263,7 +357,6 @@ const SignUp = () => {
                           <span className="mx-2">or</span>
                           <hr className="flex-grow-1" />
                         </div>
-
                         <form
                           onSubmit={handleSubmit}
                           className="axil-contact-form">
@@ -382,7 +475,6 @@ const SignUp = () => {
                         OTP has been sent! Please verify.
                       </div>
                     )}
-
                     {otpSent && (
                       <form
                         onSubmit={handleSubmit}
@@ -427,544 +519,577 @@ const SignUp = () => {
                 ) : (
                   <div>
                     <h5 className="text-center">Welcome to CLIF.AI</h5>
-                    <form onSubmit={handleSubmit} className="axil-contact-form">
-                      <div className="row">
-                        {/* First Name */}
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <label>First Name</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="First Name"
-                              name="firstname"
-                              value={formValues.firstname}
-                              onChange={handleChange}
-                              required
-                            />
-                          </div>
-                          <p className="text-red">{formErrors.firstname}</p>
+                    {!loginSent ? (
+                      <form
+                        onSubmit={handleResumeSubmit}
+                        className="axil-contact-form">
+                        {/* Resume Upload Field */}
+                        <div className="form-group">
+                          <label>Upload Resume*</label>
+                          <input
+                            type="file"
+                            className="form-control"
+                            name="resume"
+                            onChange={handleFileChange} // Handle file change
+                            required
+                          />
+                          {formErrors.resume && (
+                            <p className="error-message">{formErrors.resume}</p>
+                          )}
                         </div>
 
-                        {/* Last Name */}
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <label>Last Name</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Last Name"
-                              name="lastname"
-                              value={formValues.lastname}
-                              onChange={handleChange}
-                              required
-                            />
-                          </div>
-                          <p className="text-red">{formErrors.lastname}</p>
+                        {/* Buttons */}
+                        <div className="form-group gap-2 flex">
+                          <button
+                            type="submit"
+                            className="axil-btn btn-fill-primary btn-fluid btn-primary"
+                            name="submit-btn">
+                            Continue
+                          </button>
                         </div>
-                        {/* Upload Professional Headshot */}
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <label>Upload Professional Headshot</label>
-                            <input
-                              type="file"
-                              className="form-control"
-                              name="headshot"
-                              onChange={handleChange}
-                              required
-                            />
+                      </form>
+                    ) : (
+                      <form
+                        onSubmit={handleSubmit}
+                        className="axil-contact-form">
+                        <div className="row">
+                          {/* First Name */}
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label>First Name</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="First Name"
+                                name="firstname"
+                                value={formValues.firstname}
+                                onChange={handleChange}
+                                required
+                              />
+                            </div>
+                            <p className="text-red">{formErrors.firstname}</p>
                           </div>
-                          <p className="text-red">{formErrors.headshot}</p>
-                        </div>
-                      </div>
 
-                      <div className="row">
-                        {/* Age Range */}
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <label>Age Range</label>
-                            {[
-                              "Below 18",
-                              "18 – 25",
-                              "26 – 34",
-                              "35 – 45",
-                              "45 – 55",
-                              "56 and above",
-                            ].map((age, index) => (
-                              <div className="form-check" key={index}>
-                                <input
-                                  type="radio"
-                                  id={`age${index}`}
-                                  name="age"
-                                  value={age}
-                                  onChange={handleChange}
-                                  className="form-check-input"
-                                  required
-                                />
-                                <label
-                                  htmlFor={`age${index}`}
-                                  className="form-check-label">
-                                  {age}
-                                </label>
-                              </div>
-                            ))}
+                          {/* Last Name */}
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label>Last Name</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Last Name"
+                                name="lastname"
+                                value={formValues.lastname}
+                                onChange={handleChange}
+                                required
+                              />
+                            </div>
+                            <p className="text-red">{formErrors.lastname}</p>
                           </div>
-                          <p className="text-red">{formErrors.age}</p>
+                          {/* Upload Professional Headshot */}
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label>Upload Professional Headshot</label>
+                              <input
+                                type="file"
+                                className="form-control"
+                                name="headshot"
+                                onChange={handleChange}
+                                required
+                              />
+                            </div>
+                            <p className="text-red">{formErrors.headshot}</p>
+                          </div>
                         </div>
 
-                        {/* Mobile Number */}
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <label>Mobile No.</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Phone No."
-                              name="phone_no"
-                              value={formValues.phone_no}
-                              onChange={handleChange}
-                              required
-                            />
-                          </div>
-                          <p className="text-red">{formErrors.phone_no}</p>
-                        </div>
-
-                        {/* Gender */}
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <label>Gender</label>
-                            {["Male", "Female", "Rather not specify"].map(
-                              (gender, index) => (
+                        <div className="row">
+                          {/* Age Range */}
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label>Age Range</label>
+                              {[
+                                "Below 18",
+                                "18 – 25",
+                                "26 – 34",
+                                "35 – 45",
+                                "45 – 55",
+                                "56 and above",
+                              ].map((age, index) => (
                                 <div className="form-check" key={index}>
                                   <input
                                     type="radio"
-                                    id={`gender${index}`}
-                                    name="gender"
-                                    value={gender}
+                                    id={`age${index}`}
+                                    name="age"
+                                    value={age}
                                     onChange={handleChange}
                                     className="form-check-input"
                                     required
                                   />
                                   <label
-                                    htmlFor={`gender${index}`}
+                                    htmlFor={`age${index}`}
                                     className="form-check-label">
-                                    {gender}
+                                    {age}
                                   </label>
                                 </div>
-                              )
-                            )}
-                          </div>
-                          <p className="text-red">{formErrors.gender}</p>
-                        </div>
-                      </div>
-
-                      <div className="row">
-                        {/* Current Employer */}
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <label>Current Employer *</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Current Employer"
-                              name="current_employer"
-                              value={formValues.current_employer}
-                              onChange={handleChange}
-                              required
-                            />
-                          </div>
-                          <p className="text-red">
-                            {formErrors.current_employer}
-                          </p>
-                        </div>
-
-                        {/* Desired Employer */}
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <label>Desired Employer *</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Desired Employer"
-                              name="desired_employer"
-                              value={formValues.desired_employer}
-                              onChange={handleChange}
-                              required
-                            />
-                          </div>
-                          <p className="text-red">
-                            {formErrors.desired_employer}
-                          </p>
-                        </div>
-
-                        {/* Current Location */}
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <label>Current Location</label>
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Current Location"
-                              name="current_location"
-                              value={formValues.current_location}
-                              onChange={handleChange}
-                              required
-                            />
-                          </div>
-                          <p className="text-red">
-                            {formErrors.current_location}
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="row">
-                        {/* Highest Level of Education */}
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <label>Highest Level of Education *</label>
-                            <select
-                              name="education"
-                              className="form-control"
-                              value={formValues.education}
-                              onChange={handleChange}
-                              required>
-                              <option disabled>Select Your Education</option>
-                              <option>Undergrad</option>
-                              <option>Bachelors</option>
-                              <option>Masters</option>
-                              <option>Doctorate</option>
-                            </select>
-                          </div>
-                          <p className="text-red">{formErrors.education}</p>
-                        </div>
-
-                        {/* Year of Completion */}
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <label>Year of Completion</label>
-                            <select
-                              id="yearOfCompletion"
-                              name="yearOfCompletion"
-                              value={formValues.yearOfCompletion}
-                              onChange={handleChange}
-                              className="form-control"
-                              required>
-                              <option value="" disabled>
-                                Select Year of Completion
-                              </option>
-                              {Array.from(
-                                { length: 2024 - 1950 + 1 },
-                                (_, i) => 2024 - i
-                              ).map((year) => (
-                                <option key={year} value={year}>
-                                  {year}
-                                </option>
                               ))}
-                            </select>
+                            </div>
+                            <p className="text-red">{formErrors.age}</p>
                           </div>
-                          <p className="text-red">
-                            {formErrors.yearOfCompletion}
-                          </p>
-                        </div>
 
-                        {/* Specialization */}
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <label>Specialization</label>
-                            <input
-                              type="text"
-                              id="specialization"
-                              name="specialization"
-                              value={formValues.specialization}
-                              onChange={handleChange}
-                              className="form-control"
-                              placeholder="Enter your specialization"
-                              required
-                            />
+                          {/* Mobile Number */}
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label>Mobile No.</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Phone No."
+                                name="phone_no"
+                                value={formValues.phone_no}
+                                onChange={handleChange}
+                                required
+                              />
+                            </div>
+                            <p className="text-red">{formErrors.phone_no}</p>
                           </div>
-                          <p className="text-red">
-                            {formErrors.specialization}
-                          </p>
-                        </div>
-                      </div>
 
-                      <div className="row">
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <label>Desired Location Country *</label>
-                            <select
-                              name="desiredLocationCountry"
-                              className="form-control"
-                              value={formValues.desiredLocationCountry}
-                              onChange={handleChange}
-                              required>
-                              <option value="" disabled>
-                                Select country
-                              </option>
-                              <option value="Undergrad">Undergrad</option>
-                              <option value="Bachelors">Bachelors</option>
-                              <option value="Masters">Masters</option>
-                              <option value="Doctorate">Doctorate</option>
-                            </select>
-                            {formErrors.desiredLocationCountry && (
-                              <p className="text-red">
-                                {formErrors.desiredLocationCountry}
-                              </p>
-                            )}
+                          {/* Gender */}
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label>Gender</label>
+                              {["Male", "Female", "Rather not specify"].map(
+                                (gender, index) => (
+                                  <div className="form-check" key={index}>
+                                    <input
+                                      type="radio"
+                                      id={`gender${index}`}
+                                      name="gender"
+                                      value={gender}
+                                      onChange={handleChange}
+                                      className="form-check-input"
+                                      required
+                                    />
+                                    <label
+                                      htmlFor={`gender${index}`}
+                                      className="form-check-label">
+                                      {gender}
+                                    </label>
+                                  </div>
+                                )
+                              )}
+                            </div>
+                            <p className="text-red">{formErrors.gender}</p>
                           </div>
                         </div>
 
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <label>Desired Location City *</label>
-                            <select
-                              name="desiredLocationCity"
-                              className="form-control"
-                              value={formValues.desiredLocationCity}
-                              onChange={handleChange}
-                              required>
-                              <option value="" disabled>
-                                Select city
-                              </option>
-                              {Array.from(
-                                { length: 2024 - 1950 + 1 },
-                                (_, i) => 2024 - i
-                              ).map((year) => (
-                                <option key={year} value={year}>
-                                  {year}
+                        <div className="row">
+                          {/* Current Employer */}
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label>Current Employer *</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Current Employer"
+                                name="current_employer"
+                                value={formValues.current_employer}
+                                onChange={handleChange}
+                                required
+                              />
+                            </div>
+                            <p className="text-red">
+                              {formErrors.current_employer}
+                            </p>
+                          </div>
+
+                          {/* Desired Employer */}
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label>Desired Employer *</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Desired Employer"
+                                name="desired_employer"
+                                value={formValues.desired_employer}
+                                onChange={handleChange}
+                                required
+                              />
+                            </div>
+                            <p className="text-red">
+                              {formErrors.desired_employer}
+                            </p>
+                          </div>
+
+                          {/* Current Location */}
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label>Current Location</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Current Location"
+                                name="current_location"
+                                value={formValues.current_location}
+                                onChange={handleChange}
+                                required
+                              />
+                            </div>
+                            <p className="text-red">
+                              {formErrors.current_location}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="row">
+                          {/* Highest Level of Education */}
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label>Highest Level of Education *</label>
+                              <select
+                                name="education"
+                                className="form-control"
+                                value={formValues.education}
+                                onChange={handleChange}
+                                required>
+                                <option disabled>Select Your Education</option>
+                                <option>Undergrad</option>
+                                <option>Bachelors</option>
+                                <option>Masters</option>
+                                <option>Doctorate</option>
+                              </select>
+                            </div>
+                            <p className="text-red">{formErrors.education}</p>
+                          </div>
+
+                          {/* Year of Completion */}
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label>Year of Completion</label>
+                              <select
+                                id="yearOfCompletion"
+                                name="yearOfCompletion"
+                                value={formValues.yearOfCompletion}
+                                onChange={handleChange}
+                                className="form-control"
+                                required>
+                                <option value="" disabled>
+                                  Select Year of Completion
                                 </option>
-                              ))}
-                            </select>
-                            {formErrors.desiredLocationCity && (
-                              <p className="text-red">
-                                {formErrors.desiredLocationCity}
-                              </p>
-                            )}
+                                {Array.from(
+                                  { length: 2024 - 1950 + 1 },
+                                  (_, i) => 2024 - i
+                                ).map((year) => (
+                                  <option key={year} value={year}>
+                                    {year}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                            <p className="text-red">
+                              {formErrors.yearOfCompletion}
+                            </p>
+                          </div>
+
+                          {/* Specialization */}
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label>Specialization</label>
+                              <input
+                                type="text"
+                                id="specialization"
+                                name="specialization"
+                                value={formValues.specialization}
+                                onChange={handleChange}
+                                className="form-control"
+                                placeholder="Enter your specialization"
+                                required
+                              />
+                            </div>
+                            <p className="text-red">
+                              {formErrors.specialization}
+                            </p>
                           </div>
                         </div>
 
-                        <div className="col-lg-4">
-                          <div className="form-group">
-                            <label>Professional Domain *</label>
-                            <select
-                              name="professionalDomain"
-                              className="form-control"
-                              value={formValues.professionalDomain}
-                              onChange={handleChange}
-                              required>
-                              <option value="" disabled>
-                                Select Your Professional Domain
-                              </option>
-                              <option value="Technology">Technology</option>
-                              <option value="Management">Management</option>
-                              <option value="Finance">Finance</option>
-                              <option value="Content Creator">
-                                Content Creator
-                              </option>
-                              <option value="Entrepreneurship">
-                                Entrepreneurship
-                              </option>
-                              <option value="Business Intelligence">
-                                Business Intelligence
-                              </option>
-                              <option value="Venture Capital">
-                                Venture Capital
-                              </option>
-                            </select>
-                            {formErrors.professionalDomain && (
-                              <p className="text-red">
-                                {formErrors.professionalDomain}
-                              </p>
-                            )}
+                        <div className="row">
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label>Desired Location Country *</label>
+                              <select
+                                name="desiredLocationCountry"
+                                className="form-control"
+                                value={formValues.desiredLocationCountry}
+                                onChange={handleChange}
+                                required>
+                                <option value="" disabled>
+                                  Select country
+                                </option>
+                                <option value="Undergrad">Undergrad</option>
+                                <option value="Bachelors">Bachelors</option>
+                                <option value="Masters">Masters</option>
+                                <option value="Doctorate">Doctorate</option>
+                              </select>
+                              {formErrors.desiredLocationCountry && (
+                                <p className="text-red">
+                                  {formErrors.desiredLocationCountry}
+                                </p>
+                              )}
+                            </div>
                           </div>
-                        </div>
-                      </div>
 
-                      <div className="row">
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label>Current Role *</label>
-                            <select
-                              name="currentRole"
-                              className="form-control"
-                              value={formValues.currentRole}
-                              onChange={handleChange}
-                              required>
-                              <option value="" disabled>
-                                Select Your Current Role
-                              </option>
-                              <option value="Undergrad / Not Employed">
-                                Undergrad / Not Employed
-                              </option>
-                              <option value="Entry Level / Intern">
-                                Entry Level / Intern
-                              </option>
-                              <option value="Individual Contributor (Jr. Level)">
-                                Individual Contributor (Jr. Level)
-                              </option>
-                              <option value="Individual Contributor (Sr. Level)">
-                                Individual Contributor (Sr. Level)
-                              </option>
-                              <option value="Manager">Manager</option>
-                              <option value="Sr. Manager">Sr. Manager</option>
-                              <option value="Director / Assistant Vice President">
-                                Director / Assistant Vice President
-                              </option>
-                              <option value="Vice President">
-                                Vice President
-                              </option>
-                              <option value="C-Suite (CEO/CFO/CMO & Similar)">
-                                C-Suite (CEO/CFO/CMO & Similar)
-                              </option>
-                              <option value="Chairperson / Board of Directors">
-                                Chairperson / Board of Directors
-                              </option>
-                            </select>
-                            {formErrors.currentRole && (
-                              <p className="text-red">
-                                {formErrors.currentRole}
-                              </p>
-                            )}
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label>Desired Location City *</label>
+                              <select
+                                name="desiredLocationCity"
+                                className="form-control"
+                                value={formValues.desiredLocationCity}
+                                onChange={handleChange}
+                                required>
+                                <option value="" disabled>
+                                  Select city
+                                </option>
+                                {Array.from(
+                                  { length: 2024 - 1950 + 1 },
+                                  (_, i) => 2024 - i
+                                ).map((year) => (
+                                  <option key={year} value={year}>
+                                    {year}
+                                  </option>
+                                ))}
+                              </select>
+                              {formErrors.desiredLocationCity && (
+                                <p className="text-red">
+                                  {formErrors.desiredLocationCity}
+                                </p>
+                              )}
+                            </div>
                           </div>
-                        </div>
 
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label>Current Salary *</label>
-                            <input
-                              type="number"
-                              name="currentSalary"
-                              className="form-control"
-                              value={formValues.currentSalary}
-                              onChange={handleChange}
-                              required
-                            />
-                            {formErrors.currentSalary && (
-                              <p className="text-red">
-                                {formErrors.currentSalary}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="row">
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label>Desired Role *</label>
-                            <select
-                              name="desiredRole"
-                              className="form-control"
-                              value={formValues.desiredRole}
-                              onChange={handleChange}
-                              required>
-                              <option value="" disabled>
-                                Select Your Desired Role
-                              </option>
-                              <option value="Undergrad / Not Employed">
-                                Undergrad / Not Employed
-                              </option>
-                              <option value="Entry Level / Intern">
-                                Entry Level / Intern
-                              </option>
-                              <option value="Individual Contributor (Jr. Level)">
-                                Individual Contributor (Jr. Level)
-                              </option>
-                              <option value="Individual Contributor (Sr. Level)">
-                                Individual Contributor (Sr. Level)
-                              </option>
-                              <option value="Manager">Manager</option>
-                              <option value="Sr. Manager">Sr. Manager</option>
-                              <option value="Director / Assistant Vice President">
-                                Director / Assistant Vice President
-                              </option>
-                              <option value="Vice President">
-                                Vice President
-                              </option>
-                              <option value="C-Suite (CEO/CFO/CMO & Similar)">
-                                C-Suite (CEO/CFO/CMO & Similar)
-                              </option>
-                              <option value="Chairperson / Board of Directors">
-                                Chairperson / Board of Directors
-                              </option>
-                            </select>
-                            {formErrors.desiredRole && (
-                              <p className="text-red">
-                                {formErrors.desiredRole}
-                              </p>
-                            )}
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label>Professional Domain *</label>
+                              <select
+                                name="professionalDomain"
+                                className="form-control"
+                                value={formValues.professionalDomain}
+                                onChange={handleChange}
+                                required>
+                                <option value="" disabled>
+                                  Select Your Professional Domain
+                                </option>
+                                <option value="Technology">Technology</option>
+                                <option value="Management">Management</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Content Creator">
+                                  Content Creator
+                                </option>
+                                <option value="Entrepreneurship">
+                                  Entrepreneurship
+                                </option>
+                                <option value="Business Intelligence">
+                                  Business Intelligence
+                                </option>
+                                <option value="Venture Capital">
+                                  Venture Capital
+                                </option>
+                              </select>
+                              {formErrors.professionalDomain && (
+                                <p className="text-red">
+                                  {formErrors.professionalDomain}
+                                </p>
+                              )}
+                            </div>
                           </div>
                         </div>
 
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label>Desired Salary *</label>
-                            <input
-                              type="number"
-                              name="desiredSalary"
-                              className="form-control"
-                              value={formValues.desiredSalary}
-                              onChange={handleChange}
-                              required
-                            />
-                            {formErrors.desiredSalary && (
-                              <p className="text-red">
-                                {formErrors.desiredSalary}
-                              </p>
-                            )}
+                        <div className="row">
+                          <div className="col-lg-6">
+                            <div className="form-group">
+                              <label>Current Role *</label>
+                              <select
+                                name="currentRole"
+                                className="form-control"
+                                value={formValues.currentRole}
+                                onChange={handleChange}
+                                required>
+                                <option value="" disabled>
+                                  Select Your Current Role
+                                </option>
+                                <option value="Undergrad / Not Employed">
+                                  Undergrad / Not Employed
+                                </option>
+                                <option value="Entry Level / Intern">
+                                  Entry Level / Intern
+                                </option>
+                                <option value="Individual Contributor (Jr. Level)">
+                                  Individual Contributor (Jr. Level)
+                                </option>
+                                <option value="Individual Contributor (Sr. Level)">
+                                  Individual Contributor (Sr. Level)
+                                </option>
+                                <option value="Manager">Manager</option>
+                                <option value="Sr. Manager">Sr. Manager</option>
+                                <option value="Director / Assistant Vice President">
+                                  Director / Assistant Vice President
+                                </option>
+                                <option value="Vice President">
+                                  Vice President
+                                </option>
+                                <option value="C-Suite (CEO/CFO/CMO & Similar)">
+                                  C-Suite (CEO/CFO/CMO & Similar)
+                                </option>
+                                <option value="Chairperson / Board of Directors">
+                                  Chairperson / Board of Directors
+                                </option>
+                              </select>
+                              {formErrors.currentRole && (
+                                <p className="text-red">
+                                  {formErrors.currentRole}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="col-lg-6">
+                            <div className="form-group">
+                              <label>Current Salary *</label>
+                              <input
+                                type="number"
+                                name="currentSalary"
+                                className="form-control"
+                                value={formValues.currentSalary}
+                                onChange={handleChange}
+                                required
+                              />
+                              {formErrors.currentSalary && (
+                                <p className="text-red">
+                                  {formErrors.currentSalary}
+                                </p>
+                              )}
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="row">
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label>LinkedIn URL *</label>
-                            <input
-                              type="url"
-                              name="linkedinUrl"
-                              className="form-control"
-                              placeholder="https://www.linkedin.com/in/your-profile"
-                              value={formValues.linkedinUrl}
-                              onChange={handleChange}
-                              required
-                            />
-                            {formErrors.linkedinUrl && (
-                              <p className="text-red">
-                                {formErrors.linkedinUrl}
-                              </p>
-                            )}
+                        <div className="row">
+                          <div className="col-lg-6">
+                            <div className="form-group">
+                              <label>Desired Role *</label>
+                              <select
+                                name="desiredRole"
+                                className="form-control"
+                                value={formValues.desiredRole}
+                                onChange={handleChange}
+                                required>
+                                <option value="" disabled>
+                                  Select Your Desired Role
+                                </option>
+                                <option value="Undergrad / Not Employed">
+                                  Undergrad / Not Employed
+                                </option>
+                                <option value="Entry Level / Intern">
+                                  Entry Level / Intern
+                                </option>
+                                <option value="Individual Contributor (Jr. Level)">
+                                  Individual Contributor (Jr. Level)
+                                </option>
+                                <option value="Individual Contributor (Sr. Level)">
+                                  Individual Contributor (Sr. Level)
+                                </option>
+                                <option value="Manager">Manager</option>
+                                <option value="Sr. Manager">Sr. Manager</option>
+                                <option value="Director / Assistant Vice President">
+                                  Director / Assistant Vice President
+                                </option>
+                                <option value="Vice President">
+                                  Vice President
+                                </option>
+                                <option value="C-Suite (CEO/CFO/CMO & Similar)">
+                                  C-Suite (CEO/CFO/CMO & Similar)
+                                </option>
+                                <option value="Chairperson / Board of Directors">
+                                  Chairperson / Board of Directors
+                                </option>
+                              </select>
+                              {formErrors.desiredRole && (
+                                <p className="text-red">
+                                  {formErrors.desiredRole}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="col-lg-6">
+                            <div className="form-group">
+                              <label>Desired Salary *</label>
+                              <input
+                                type="number"
+                                name="desiredSalary"
+                                className="form-control"
+                                value={formValues.desiredSalary}
+                                onChange={handleChange}
+                                required
+                              />
+                              {formErrors.desiredSalary && (
+                                <p className="text-red">
+                                  {formErrors.desiredSalary}
+                                </p>
+                              )}
+                            </div>
                           </div>
                         </div>
 
-                        <div className="col-lg-6">
-                          <div className="form-group">
-                            <label>Upload File *</label>
-                            <input
-                              type="file"
-                              name="fileUpload"
-                              className="form-control"
-                              onChange={handleChange}
-                              required
-                            />
-                            {formErrors.fileUpload && (
-                              <p className="text-red">
-                                {formErrors.fileUpload}
-                              </p>
-                            )}
+                        <div className="row">
+                          <div className="col-lg-6">
+                            <div className="form-group">
+                              <label>LinkedIn URL *</label>
+                              <input
+                                type="url"
+                                name="linkedinUrl"
+                                className="form-control"
+                                placeholder="https://www.linkedin.com/in/your-profile"
+                                value={formValues.linkedinUrl}
+                                onChange={handleChange}
+                                required
+                              />
+                              {formErrors.linkedinUrl && (
+                                <p className="text-red">
+                                  {formErrors.linkedinUrl}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="col-lg-6">
+                            <div className="form-group">
+                              <label>Upload File *</label>
+                              <input
+                                type="file"
+                                name="fileUpload"
+                                className="form-control"
+                                onChange={handleChange}
+                                required
+                              />
+                              {formErrors.fileUpload && (
+                                <p className="text-red">
+                                  {formErrors.fileUpload}
+                                </p>
+                              )}
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="form-group">
-                        <button
-                          name="submit-btn"
-                          type="submit"
-                          className="axil-btn btn-fill-primary btn-fluid btn-primary">
-                          Continue
-                        </button>
-                      </div>
-                    </form>
+                        <div className="form-group">
+                          <button
+                            name="submit-btn"
+                            type="submit"
+                            className="axil-btn btn-fill-primary btn-fluid btn-primary">
+                            Continue
+                          </button>
+                        </div>
+                      </form>
+                    )}
                   </div>
                 )}
               </div>
