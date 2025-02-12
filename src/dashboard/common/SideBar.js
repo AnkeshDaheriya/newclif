@@ -27,6 +27,7 @@ const SideBar = () => {
             {[
               { icon: "fas fa-tachometer-alt", text: "Dashboard", link: "/dashboard" },
               { icon: "fas fa-chart-bar", text: "Skill Assessment", link: "/skillassessment" },
+              { icon: "fas fa-road", text: "MileStone", link: "/mile-stone1" },
               { icon: "fas fa-folder-open", text: "Portfolio", link: "/main/index3.html" }, // Updated icon
               { icon: "fas fa-user", text: "Mentor", link: "/main/index4.html" }, // Updated icon
               { icon: "fas fa-road", text: "Career Path", link: "/careerpath" },
