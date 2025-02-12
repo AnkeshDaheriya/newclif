@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Header from "../common/Header";
 import SideBar from "../common/SideBar";
 import SearchBar from "../common/SearchBar";
-import TimelineSVG from "../../ROAD VECTOR IMAGE 01.svg"
+import TimelineSVG from "../../ROAD VECTOR IMAGE 01.svg";
 import { Graph } from "./Graph";
 const Dashboard = () => {
   return (
@@ -18,43 +18,62 @@ const Dashboard = () => {
                 {/* Enhanced Greeting Card */}
                 <div className="col-12">
                   <div className="card border-0 shadow-sm">
-                    <div className="card-body text-center py-3" style={{
-                      background: 'linear-gradient(135deg, #6600CC 0%, #9933FF 100%)',
-                      borderRadius: '15px',
-                      position: 'relative',
-                      overflow: 'hidden'
-                    }}>
+                    <div
+                      className="card-body text-center py-3"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #6600CC 0%, #9933FF 100%)",
+                        borderRadius: "15px",
+                        position: "relative",
+                        overflow: "hidden",
+                      }}
+                    >
                       {/* Decorative Elements */}
-                      <div style={{
-                        position: 'absolute',
-                        top: '10%',
-                        left: '5%',
-                        width: '15px',
-                        height: '15px',
-                        background: 'rgba(255, 255, 255, 0.1)',
-                        borderRadius: '50%'
-                      }}></div>
-                      <div style={{
-                        position: 'absolute',
-                        bottom: '15%',
-                        right: '10%',
-                        width: '30px',
-                        height: '30px',
-                        background: 'rgba(255, 255, 255, 0.1)',
-                        borderRadius: '50%'
-                      }}></div>
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "10%",
+                          left: "5%",
+                          width: "15px",
+                          height: "15px",
+                          background: "rgba(255, 255, 255, 0.1)",
+                          borderRadius: "50%",
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          position: "absolute",
+                          bottom: "15%",
+                          right: "10%",
+                          width: "30px",
+                          height: "30px",
+                          background: "rgba(255, 255, 255, 0.1)",
+                          borderRadius: "50%",
+                        }}
+                      ></div>
 
                       {/* Content */}
                       <div className="position-relative">
-                        <h2 className="fw-bold text-white mb-2" style={{
-                          fontSize: '1.8rem',
-                          textShadow: '1px 1px 3px rgba(0,0,0,0.1)'
-                        }}>Hey Champion! ✨</h2>
-                        <p className="h5 text-white mb-2" style={{
-                          opacity: '0.9',
-                          fontWeight: '500',
-                          fontSize: '1rem'
-                        }}>You're on track to achieve your career goal with CLIF AI by <b> December 2026 </b></p>
+                        <h2
+                          className="fw-bold text-white mb-2"
+                          style={{
+                            fontSize: "1.8rem",
+                            textShadow: "1px 1px 3px rgba(0,0,0,0.1)",
+                          }}
+                        >
+                          Hey Nitin! ✨
+                        </h2>
+                        <p
+                          className="h5 text-white mb-2"
+                          style={{
+                            opacity: "0.9",
+                            fontWeight: "500",
+                            fontSize: "1rem",
+                          }}
+                        >
+                          You're on track to achieve your career goal with CLIF
+                          AI by <b> December 2026 </b>
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -71,12 +90,16 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-
                 {/* Existing Dashboard Components */}
                 <div className="col-lg-4 d-flex align-items-stretch">
-                  <div className="card w-100 p-2" style={{ maxHeight: "400px", overflow: "hidden" }}>
+                  <div
+                    className="card w-100 p-2"
+                    style={{ maxHeight: "400px", overflow: "hidden" }}
+                  >
                     <div className="card-body p-2">
-                      <h5 className="card-title fw-semibold mb-2 mt-2">Learning Last Month</h5>
+                      <h5 className="card-title fw-semibold mb-2 mt-2">
+                        Learning Last Month
+                      </h5>
                       <p className="card-subtitle mb-3">July 2025</p>
                       <div className="mt-2">
                         <div className="d-flex align-items-center mb-4 mt-2">
@@ -84,8 +107,12 @@ const Dashboard = () => {
                             <i className="ti ti-grid-dots text-muted fs-6" />
                           </div>
                           <div>
-                            <p className="fs-6 mb-1 fw-normal">Total Courses Completed</p>
-                            <h6 className="fw-semibold text-dark fs-6 mb-1">36</h6>
+                            <p className="fs-6 mb-1 fw-normal">
+                              Total Courses Completed
+                            </p>
+                            <h6 className="fw-semibold text-dark fs-6 mb-1">
+                              36
+                            </h6>
                           </div>
                         </div>
                         <div className="d-flex align-items-center mb-4">
@@ -93,8 +120,12 @@ const Dashboard = () => {
                             <i className="ti ti-grid-dots text-muted fs-6" />
                           </div>
                           <div>
-                            <p className="fs-6 mb-1 fw-normal">Total Certificates</p>
-                            <h6 className="fw-semibold text-dark fs-6 mb-1">52</h6>
+                            <p className="fs-6 mb-1 fw-normal">
+                              Total Certificates
+                            </p>
+                            <h6 className="fw-semibold text-dark fs-6 mb-1">
+                              52
+                            </h6>
                           </div>
                         </div>
                         <div className="d-flex align-items-center mb-4">
@@ -102,8 +133,12 @@ const Dashboard = () => {
                             <i className="ti ti-grid-dots text-muted fs-6" />
                           </div>
                           <div>
-                            <p className="fs-6 mb-1 fw-normal">Learning Hours</p>
-                            <h6 className="fw-semibold text-dark fs-6 mb-1">120 Hrs</h6>
+                            <p className="fs-6 mb-1 fw-normal">
+                              Learning Hours
+                            </p>
+                            <h6 className="fw-semibold text-dark fs-6 mb-1">
+                              120 Hrs
+                            </h6>
                           </div>
                         </div>
                         <div className="d-flex align-items-center">
@@ -112,7 +147,9 @@ const Dashboard = () => {
                           </div>
                           <div>
                             <p className="fs-6 mb-0 fw-normal">Mentor Hours</p>
-                            <h6 className="fw-semibold text-dark fs-6 mb-0">98 Hrs</h6>
+                            <h6 className="fw-semibold text-dark fs-6 mb-0">
+                              98 Hrs
+                            </h6>
                           </div>
                         </div>
                       </div>
@@ -120,9 +157,11 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-
                 <div className="col-lg-4 d-flex align-items-stretch">
-                  <div className="card w-100" style={{ maxHeight: "400px", overflow: "hidden" }}>
+                  <div
+                    className="card w-100"
+                    style={{ maxHeight: "400px", overflow: "hidden" }}
+                  >
                     <div className="card-body">
                       <div>
                         <h5 className="card-title fw-semibold mb-1">
@@ -136,7 +175,9 @@ const Dashboard = () => {
                               <i className="ti ti-grid-dots text-muted fs-6" />
                             </div>
                             <div>
-                              <p className="fs-3 mb-0 fw-normal">Highest Salary</p>
+                              <p className="fs-3 mb-0 fw-normal">
+                                Highest Salary
+                              </p>
                               <h6 className="fw-semibold text-dark fs-5 mb-1">
                                 ₹3.5 Cr
                               </h6>
@@ -147,9 +188,11 @@ const Dashboard = () => {
                               <i className="ti ti-grid-dots text-muted fs-6" />
                             </div>
                             <div>
-                              <p className="fs-3 mb-0 fw-normal">Average Salary</p>
+                              <p className="fs-3 mb-0 fw-normal">
+                                Average Salary
+                              </p>
                               <h6 className="fw-semibold text-dark fs-5 mb-0">
-                                ₹50 lpa
+                                ₹50 LPA
                               </h6>
                             </div>
                           </div>
@@ -159,15 +202,16 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-
                 <div className="col-lg-4 d-flex align-items-stretch flex-column">
                   <div className="row">
                     {/* Customers */}
                     <div className="col-sm-6 d-flex align-items-stretch">
                       <div className="card w-100">
                         <div className="card-body pb-0 mb-xxl-4 pb-1">
-                          <p className="mb-1 fs-3">Best Potential Salary Package</p>
-                          <h4 className="fw-semibold fs-7">₹19.3 lpa</h4>
+                          <p className="mb-1 fs-3">
+                            Best Potential Salary Package
+                          </p>
+                          <h4 className="fw-semibold fs-7">₹19.3 LPA</h4>
                           <div className="d-flex align-items-center mb-3">
                             <span className="me-1 rounded-circle bg-success-subtle round-20 d-flex align-items-center justify-content-center">
                               <i className="ti ti-arrow-up-left text-success" />
@@ -183,7 +227,7 @@ const Dashboard = () => {
                       <div className="card w-100">
                         <div className="card-body">
                           <p className="mb-1 fs-3">Average Salary Package</p>
-                          <h4 className="fw-semibold fs-7">₹8.3 lpa</h4>
+                          <h4 className="fw-semibold fs-7">₹8.3 LPA</h4>
                           <div className="d-flex align-items-center mb-3">
                             <span className="me-1 rounded-circle bg-success-subtle round-20 d-flex align-items-center justify-content-center">
                               <i className="ti ti-arrow-up-left text-success" />
@@ -625,5 +669,5 @@ const Dashboard = () => {
       <div className="dark-transparent sidebartoggler"></div>
     </>
   );
-}
+};
 export default Dashboard;
