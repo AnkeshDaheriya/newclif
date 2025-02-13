@@ -34303,6 +34303,7 @@ body table.dataTable > tbody > tr.selected > * {
 .nav-icon-hover-bg:hover .nav-link {
   color: var(--bs-primary) !important;
 }
+
 .hover-img {
   transition: 0.2s ease-in;
 }

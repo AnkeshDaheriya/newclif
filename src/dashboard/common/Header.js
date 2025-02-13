@@ -2,6 +2,61 @@ import React from "react";
 function Header() {
   return (
     <>
+      <style>
+        {`
+          .navbar-nav .nav-link {
+            color: #6600CC !important;
+            transition: all 0.3s ease;
+            position: relative;
+          }
+
+          .navbar-nav .nav-link:hover {
+            color: #8033D9 !important;
+            transform: translateY(-2px);
+          }
+           
+
+          .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #6600CC;
+            transition: width 0.3s ease;
+          }
+
+          .nav-link:hover::after {
+            width: 100%;
+          }
+
+          .nav-icon-hover-bg:hover {
+            background-color: rgba(102, 0, 204, 0.1);
+          }
+
+          .bg-hover-primary:hover {
+            color: #6600CC !important;
+            background-color: rgba(102, 0, 204, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+          }
+
+          .text-bg-light {
+            background-color: rgba(102, 0, 204, 0.1) !important;
+          }
+
+          .navbar-nav .btn-primary {
+            background-color: #6600CC !important;
+            border-color: #6600CC !important;
+          }
+
+          .navbar-nav .btn-primary:hover {
+            background-color: #8033D9 !important;
+            border-color: #8033D9 !important;
+          }
+        `}
+      </style>
       {/*  Header Start */}
       <header className="topbar">
         <div className="with-vertical">
@@ -9,6 +64,7 @@ function Header() {
           {/* Start Vertical Layout Header */}
           {/* ---------------------------------- */}
           <nav className="navbar navbar-expand-lg p-0">
+
             <ul className="navbar-nav">
               <li className="nav-item nav-icon-hover-bg rounded-circle ms-n2">
                 <a
@@ -35,7 +91,7 @@ function Header() {
               <li className="nav-item nav-icon-hover-bg rounded w-auto dropdown d-none d-lg-block mx-0">
                 <div className="hover-dd">
                   <a className="nav-link" href="#">
-                    Apps
+                    Quick Access
                     <span className="mt-1">
                       <i className="ti ti-chevron-down fs-3" />
                     </span>
@@ -62,10 +118,10 @@ function Header() {
                                     </div>
                                     <div>
                                       <h6 className="mb-1 fw-semibold fs-3">
-                                        Chat Application
+                                        Career Graph
                                       </h6>
                                       <span className="fs-2 d-block text-body-secondary">
-                                        New messages arrived
+                                        Get latest career graph 
                                       </span>
                                     </div>
                                   </a>
@@ -83,10 +139,10 @@ function Header() {
                                     </div>
                                     <div>
                                       <h6 className="mb-1 fw-semibold fs-3">
-                                        Invoice App
+                                        Skill Assessment
                                       </h6>
                                       <span className="fs-2 d-block text-body-secondary">
-                                        Get latest invoice
+                                        Assess your skills
                                       </span>
                                     </div>
                                   </a>
@@ -104,10 +160,10 @@ function Header() {
                                     </div>
                                     <div>
                                       <h6 className="mb-1 fw-semibold fs-3">
-                                        Contact Application
+                                        Mentors Connect
                                       </h6>
                                       <span className="fs-2 d-block text-body-secondary">
-                                        2 Unsaved Contacts
+                                        Connect with mentors
                                       </span>
                                     </div>
                                   </a>
@@ -125,10 +181,10 @@ function Header() {
                                     </div>
                                     <div>
                                       <h6 className="mb-1 fw-semibold fs-3">
-                                        Email App
+                                        Video Upload
                                       </h6>
                                       <span className="fs-2 d-block text-body-secondary">
-                                        Get new emails
+                                        Upload video
                                       </span>
                                     </div>
                                   </a>
@@ -171,10 +227,10 @@ function Header() {
                                     </div>
                                     <div>
                                       <h6 className="mb-1 fw-semibold fs-3">
-                                        Calendar App
+                                        Quick Job Search
                                       </h6>
                                       <span className="fs-2 d-block text-body-secondary">
-                                        Get dates
+                                        Search for job
                                       </span>
                                     </div>
                                   </a>
@@ -192,10 +248,10 @@ function Header() {
                                     </div>
                                     <div>
                                       <h6 className="mb-1 fw-semibold fs-3">
-                                        Contact List Table
+                                        Resume Builder
                                       </h6>
                                       <span className="fs-2 d-block text-body-secondary">
-                                        Add new contact
+                                        Build your resume
                                       </span>
                                     </div>
                                   </a>
@@ -213,10 +269,10 @@ function Header() {
                                     </div>
                                     <div>
                                       <h6 className="mb-1 fw-semibold fs-3">
-                                        Notes Application
+                                        Settings
                                       </h6>
                                       <span className="fs-2 d-block text-body-secondary">
-                                        To-do and Daily tasks
+                                        Update settings
                                       </span>
                                     </div>
                                   </a>
@@ -225,7 +281,7 @@ function Header() {
                             </div>
                           </div>
                           <div className="row align-items-center py-3">
-                            <div className="col-8">
+                            <div className="col-6">
                               <a
                                 className="fw-semibold d-flex align-items-center lh-1"
                                 href="#">
@@ -243,62 +299,6 @@ function Header() {
                           </div>
                         </div>
                       </div>
-                      <div className="col-4 ms-n4">
-                        <div className="position-relative p-7 border-start h-100">
-                          <h5 className="fs-5 mb-9 fw-semibold">Quick Links</h5>
-                          <ul className="">
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/page-pricing.html">
-                                Pricing Page
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/authentication-login.html">
-                                Authentication Design
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/authentication-register.html">
-                                Register Now
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/authentication-error.html">
-                                404 Error Page
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/app-notes.html">
-                                Notes App
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/page-user-profile.html">
-                                User Application
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/page-account-settings.html">
-                                Account Settings
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -308,17 +308,7 @@ function Header() {
               {/* ------------------------------- */}
               <li className="nav-item dropdown-hover d-none d-lg-block">
                 <a className="nav-link" href="./main/app-chat.html">
-                  Chat
-                </a>
-              </li>
-              <li className="nav-item dropdown-hover d-none d-lg-block">
-                <a className="nav-link" href="./main/app-calendar.html">
-                  Calendar
-                </a>
-              </li>
-              <li className="nav-item dropdown-hover d-none d-lg-block">
-                <a className="nav-link" href="./main/app-email.html">
-                  Email
+                  Quick Help
                 </a>
               </li>
             </ul>
@@ -355,248 +345,7 @@ function Header() {
                   <i className="ti ti-align-justified fs-7" />
                 </a>
                 <ul className="navbar-nav flex-row ms-auto align-items-center justify-content-center">
-                  {/* ------------------------------- */}
-                  {/* start language Dropdown */}
-                  {/* ------------------------------- */}
 
-                  <li className="nav-item nav-icon-hover-bg rounded-circle dropdown">
-                    <a
-                      className="nav-link"
-                      href="#"
-                      id="drop2"
-                      aria-expanded="false">
-                      <img
-                        src="./assets/images/svgs/icon-flag-en.svg"
-                        alt="modernize-img"
-                        width="20px"
-                        height="20px"
-                        className="rounded-circle object-fit-cover round-20"
-                      />
-                    </a>
-                    <div
-                      className="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
-                      aria-labelledby="drop2">
-                      <div className="message-body">
-                        <a
-                          href="#"
-                          className="d-flex align-items-center gap-2 py-3 px-4 dropdown-item">
-                          <div className="position-relative">
-                            <img
-                              src="./assets/images/svgs/icon-flag-en.svg"
-                              alt="modernize-img"
-                              width="20px"
-                              height="20px"
-                              className="rounded-circle object-fit-cover round-20"
-                            />
-                          </div>
-                          <p className="mb-0 fs-3">English (UK)</p>
-                        </a>
-                        <a
-                          href="#"
-                          className="d-flex align-items-center gap-2 py-3 px-4 dropdown-item">
-                          <div className="position-relative">
-                            <img
-                              src="./assets/images/svgs/icon-flag-cn.svg"
-                              alt="modernize-img"
-                              width="20px"
-                              height="20px"
-                              className="rounded-circle object-fit-cover round-20"
-                            />
-                          </div>
-                          <p className="mb-0 fs-3">中国人 (Chinese)</p>
-                        </a>
-                        <a
-                          href="#"
-                          className="d-flex align-items-center gap-2 py-3 px-4 dropdown-item">
-                          <div className="position-relative">
-                            <img
-                              src="./assets/images/svgs/icon-flag-fr.svg"
-                              alt="modernize-img"
-                              width="20px"
-                              height="20px"
-                              className="rounded-circle object-fit-cover round-20"
-                            />
-                          </div>
-                          <p className="mb-0 fs-3">français (French)</p>
-                        </a>
-                        <a
-                          href="#"
-                          className="d-flex align-items-center gap-2 py-3 px-4 dropdown-item">
-                          <div className="position-relative">
-                            <img
-                              src="./assets/images/svgs/icon-flag-sa.svg"
-                              alt="modernize-img"
-                              width="20px"
-                              height="20px"
-                              className="rounded-circle object-fit-cover round-20"
-                            />
-                          </div>
-                          <p className="mb-0 fs-3">عربي (Arabic)</p>
-                        </a>
-                      </div>
-                    </div>
-                  </li>
-                  {/* ------------------------------- */}
-                  {/* end language Dropdown */}
-
-                  {/* start notification Dropdown */}
-                  {/* ------------------------------- */}
-                  <li className="nav-item nav-icon-hover-bg rounded-circle dropdown">
-                    <a
-                      className="nav-link position-relative"
-                      href="#"
-                      id="drop2"
-                      aria-expanded="false">
-                      <i className="ti ti-bell-ringing" />
-                      <div className="notification bg-primary rounded-circle" />
-                    </a>
-                    <div
-                      className="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up"
-                      aria-labelledby="drop2">
-                      <div className="d-flex align-items-center justify-content-between py-3 px-7">
-                        <h5 className="mb-0 fs-5 fw-semibold">Notifications</h5>
-                        <span className="badge text-bg-primary rounded-4 px-3 py-1 lh-sm">
-                          5 new
-                        </span>
-                      </div>
-                      <div className="message-body" data-simplebar="">
-                        <a
-                          href="#"
-                          className="py-6 px-7 d-flex align-items-center dropdown-item">
-                          <span className="me-3">
-                            <img
-                              src="./assets/images/profile/user-2.jpg"
-                              alt="user"
-                              className="rounded-circle"
-                              width={48}
-                              height={48}
-                            />
-                          </span>
-                          <div className="w-100">
-                            <h6 className="mb-1 fw-semibold lh-base">
-                              Roman Joined the Team!
-                            </h6>
-                            <span className="fs-2 d-block text-body-secondary">
-                              Congratulate him
-                            </span>
-                          </div>
-                        </a>
-                        <a
-                          href="#"
-                          className="py-6 px-7 d-flex align-items-center dropdown-item">
-                          <span className="me-3">
-                            <img
-                              src="./assets/images/profile/user-3.jpg"
-                              alt="user"
-                              className="rounded-circle"
-                              width={48}
-                              height={48}
-                            />
-                          </span>
-                          <div className="w-100">
-                            <h6 className="mb-1 fw-semibold lh-base">
-                              New message
-                            </h6>
-                            <span className="fs-2 d-block text-body-secondary">
-                              Salma sent you new message
-                            </span>
-                          </div>
-                        </a>
-                        <a
-                          href="#"
-                          className="py-6 px-7 d-flex align-items-center dropdown-item">
-                          <span className="me-3">
-                            <img
-                              src="./assets/images/profile/user-4.jpg"
-                              alt="user"
-                              className="rounded-circle"
-                              width={48}
-                              height={48}
-                            />
-                          </span>
-                          <div className="w-100">
-                            <h6 className="mb-1 fw-semibold lh-base">
-                              Bianca sent payment
-                            </h6>
-                            <span className="fs-2 d-block text-body-secondary">
-                              Check your earnings
-                            </span>
-                          </div>
-                        </a>
-                        <a
-                          href="#"
-                          className="py-6 px-7 d-flex align-items-center dropdown-item">
-                          <span className="me-3">
-                            <img
-                              src="./assets/images/profile/user-5.jpg"
-                              alt="user"
-                              className="rounded-circle"
-                              width={48}
-                              height={48}
-                            />
-                          </span>
-                          <div className="w-100">
-                            <h6 className="mb-1 fw-semibold lh-base">
-                              Jolly completed tasks
-                            </h6>
-                            <span className="fs-2 d-block text-body-secondary">
-                              Assign her new tasks
-                            </span>
-                          </div>
-                        </a>
-                        <a
-                          href="#"
-                          className="py-6 px-7 d-flex align-items-center dropdown-item">
-                          <span className="me-3">
-                            <img
-                              src="./assets/images/profile/user-6.jpg"
-                              alt="user"
-                              className="rounded-circle"
-                              width={48}
-                              height={48}
-                            />
-                          </span>
-                          <div className="w-100">
-                            <h6 className="mb-1 fw-semibold lh-base">
-                              John received payment
-                            </h6>
-                            <span className="fs-2 d-block text-body-secondary">
-                              $230 deducted from account
-                            </span>
-                          </div>
-                        </a>
-                        <a
-                          href="#"
-                          className="py-6 px-7 d-flex align-items-center dropdown-item">
-                          <span className="me-3">
-                            <img
-                              src="./assets/images/profile/user-7.jpg"
-                              alt="user"
-                              className="rounded-circle"
-                              width={48}
-                              height={48}
-                            />
-                          </span>
-                          <div className="w-100">
-                            <h6 className="mb-1 fw-semibold lh-base">
-                              Roman Joined the Team!
-                            </h6>
-                            <span className="fs-2 d-block text-body-secondary">
-                              Congratulate him
-                            </span>
-                          </div>
-                        </a>
-                      </div>
-                      <div className="py-6 px-7 mb-1">
-                        <button className="btn btn-outline-primary w-100">
-                          See All Notifications
-                        </button>
-                      </div>
-                    </div>
-                  </li>
-                  {/* ------------------------------- */}
-                  {/* end notification Dropdown */}
-                  {/* ------------------------------- */}
                   {/* ------------------------------- */}
                   {/* start profile Dropdown */}
                   {/* ------------------------------- */}
@@ -680,10 +429,10 @@ function Header() {
                             </span>
                             <div className="w-100 ps-3">
                               <h6 className="mb-1 fs-3 fw-semibold lh-base">
-                                My Inbox
+                                My Progress
                               </h6>
                               <span className="fs-2 d-block text-body-secondary">
-                                Messages &amp; Emails
+                                 Progress Report
                               </span>
                             </div>
                           </a>
@@ -700,10 +449,10 @@ function Header() {
                             </span>
                             <div className="w-100 ps-3">
                               <h6 className="mb-1 fs-3 fw-semibold lh-base">
-                                My Task
+                                My Goals
                               </h6>
                               <span className="fs-2 d-block text-body-secondary">
-                                To-do and Daily Tasks
+                                Goals &amp; Tasks
                               </span>
                             </div>
                           </a>
@@ -746,10 +495,7 @@ function Header() {
               </div>
             </div>
           </nav>
-          {/* ---------------------------------- */}
-          {/* End Vertical Layout Header */}
-          {/* ---------------------------------- */}
-          {/* ------------------------------- */}
+
           {/* apps Dropdown in Small screen */}
           {/* ------------------------------- */}
           {/*  Mobilenavbar */}
@@ -970,60 +716,6 @@ function Header() {
                           </div>
                         </a>
                       </li>
-                      <ul className="px-8 mt-7 mb-4">
-                        <li className="sidebar-item mb-3">
-                          <h5 className="fs-5 fw-semibold">Quick Links</h5>
-                        </li>
-                        <li className="sidebar-item py-2">
-                          <a
-                            className="fw-semibold text-dark"
-                            href="./main/page-pricing.html">
-                            Pricing Page
-                          </a>
-                        </li>
-                        <li className="sidebar-item py-2">
-                          <a
-                            className="fw-semibold text-dark"
-                            href="./main/authentication-login.html">
-                            Authentication Design
-                          </a>
-                        </li>
-                        <li className="sidebar-item py-2">
-                          <a
-                            className="fw-semibold text-dark"
-                            href="./main/authentication-register.html">
-                            Register Now
-                          </a>
-                        </li>
-                        <li className="sidebar-item py-2">
-                          <a
-                            className="fw-semibold text-dark"
-                            href="./main/authentication-error.html">
-                            404 Error Page
-                          </a>
-                        </li>
-                        <li className="sidebar-item py-2">
-                          <a
-                            className="fw-semibold text-dark"
-                            href="./main/app-notes.html">
-                            Notes App
-                          </a>
-                        </li>
-                        <li className="sidebar-item py-2">
-                          <a
-                            className="fw-semibold text-dark"
-                            href="./main/page-user-profile.html">
-                            User Application
-                          </a>
-                        </li>
-                        <li className="sidebar-item py-2">
-                          <a
-                            className="fw-semibold text-dark"
-                            href="./main/page-account-settings.html">
-                            Account Settings
-                          </a>
-                        </li>
-                      </ul>
                     </ul>
                   </li>
                   <li className="sidebar-item">
@@ -1035,28 +727,6 @@ function Header() {
                         <i className="ti ti-message-dots" />
                       </span>
                       <span className="hide-menu">Chat</span>
-                    </a>
-                  </li>
-                  <li className="sidebar-item">
-                    <a
-                      className="sidebar-link"
-                      href="./main/app-calendar.html"
-                      aria-expanded="false">
-                      <span>
-                        <i className="ti ti-calendar" />
-                      </span>
-                      <span className="hide-menu">Calendar</span>
-                    </a>
-                  </li>
-                  <li className="sidebar-item">
-                    <a
-                      className="sidebar-link"
-                      href="./main/app-email.html"
-                      aria-expanded="false">
-                      <span>
-                        <i className="ti ti-mail" />
-                      </span>
-                      <span className="hide-menu">Email</span>
                     </a>
                   </li>
                 </ul>
@@ -1316,62 +986,6 @@ function Header() {
                           </div>
                         </div>
                       </div>
-                      <div className="col-4 ms-n4">
-                        <div className="position-relative p-7 border-start h-100">
-                          <h5 className="fs-5 mb-9 fw-semibold">Quick Links</h5>
-                          <ul className="">
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/page-pricing.html">
-                                Pricing Page
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/authentication-login.html">
-                                Authentication Design
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/authentication-register.html">
-                                Register Now
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/authentication-error.html">
-                                404 Error Page
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/app-notes.html">
-                                Notes App
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/page-user-profile.html">
-                                User Application
-                              </a>
-                            </li>
-                            <li className="mb-3">
-                              <a
-                                className="fw-semibold bg-hover-primary"
-                                href="./main/page-account-settings.html">
-                                Account Settings
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -1382,16 +996,6 @@ function Header() {
               <li className="nav-item dropdown-hover d-none d-lg-block">
                 <a className="nav-link" href="./main/app-chat.html">
                   Chat
-                </a>
-              </li>
-              <li className="nav-item dropdown-hover d-none d-lg-block">
-                <a className="nav-link" href="./main/app-calendar.html">
-                  Calendar
-                </a>
-              </li>
-              <li className="nav-item dropdown-hover d-none d-lg-block">
-                <a className="nav-link" href="./main/app-email.html">
-                  Email
                 </a>
               </li>
             </ul>

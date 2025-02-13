@@ -1,93 +1,198 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Header from "../common/Header";
-import Charts from "../componant/Charts";
-import Circle from "../componant/Circle";
-import OneCircle from "../componant/OneCircle";
 import SideBar from "../common/SideBar";
 import SearchBar from "../common/SearchBar";
-
-function Dashboard() {
+import TimelineSVG from "../../ROAD VECTOR IMAGE 01.svg";
+import { Graph } from "./Graph";
+const Dashboard = () => {
   return (
     <>
       <div id="main-wrapper">
-        {/* Sidebar Start */}
         <SideBar />
-        {/*  Sidebar End */}
         <div className="page-wrapper">
           <Header />
           <div className="body-wrapper">
             <div className="container-fluid">
               <div className="row">
-                <div className="col-lg-8 d-flex align-items-stretch">
-                  <div className="card w-100">
-                    <div className="card-body">
-                      <div className="row align-items-center">
-                        <div className="col-md-12">
-                          <Charts />
-                        </div>
+                {/* Enhanced Greeting Card */}
+                <div className="col-12">
+                  <div className="card border-0 shadow-sm">
+                    <div
+                      className="card-body text-center py-3"
+                      style={{
+                        background:
+                          "linear-gradient(135deg, #6600CC 0%, #9933FF 100%)",
+                        borderRadius: "15px",
+                        position: "relative",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {/* Decorative Elements */}
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: "10%",
+                          left: "5%",
+                          width: "15px",
+                          height: "15px",
+                          background: "rgba(255, 255, 255, 0.1)",
+                          borderRadius: "50%",
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          position: "absolute",
+                          bottom: "15%",
+                          right: "10%",
+                          width: "30px",
+                          height: "30px",
+                          background: "rgba(255, 255, 255, 0.1)",
+                          borderRadius: "50%",
+                        }}
+                      ></div>
+
+                      {/* Content */}
+                      <div className="position-relative">
+                        <h2
+                          className="fw-bold text-white mb-2"
+                          style={{
+                            fontSize: "1.8rem",
+                            textShadow: "1px 1px 3px rgba(0,0,0,0.1)",
+                          }}
+                        >
+                          Hey Nitin! ✨
+                        </h2>
+                        <p
+                          className="h5 text-white mb-2"
+                          style={{
+                            opacity: "0.9",
+                            fontWeight: "500",
+                            fontSize: "1rem",
+                          }}
+                        >
+                          You're on track to achieve your career goal with CLIF
+                          AI by <b> December 2026 </b>
+                        </p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4 d-flex align-items-stretch flex-column">
-                  {/* Yearly Breakup */}
-                  <div className="card w-100">
-                    <div className="card-body onecircle">
-                      <div className="row align-items-center">
-                        <div className="col-12">
-                          <div className="d-flex justify-content-center">
-                            <OneCircle />
+
+                {/* Timeline Section */}
+                <div className="col-12 mt-n3">
+                  <div className="card">
+                    <div className="card-body p-3">
+                      <div className="text-center">
+                        <Graph />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Existing Dashboard Components */}
+                <div className="col-lg-4 d-flex align-items-stretch">
+                  <div
+                    className="card w-100 p-2"
+                    style={{ maxHeight: "400px", overflow: "hidden" }}
+                  >
+                    <div className="card-body p-2">
+                      <h5 className="card-title fw-semibold mb-2 mt-2">
+                        Learning Last Month
+                      </h5>
+                      <p className="card-subtitle mb-3">July 2025</p>
+                      <div className="mt-2">
+                        <div className="d-flex align-items-center mb-4 mt-2">
+                          <div className="text-bg-light rounded me-2 p-1 d-flex align-items-center justify-content-center">
+                            <i className="ti ti-grid-dots text-muted fs-6" />
+                          </div>
+                          <div>
+                            <p className="fs-6 mb-1 fw-normal">
+                              Total Courses Completed
+                            </p>
+                            <h6 className="fw-semibold text-dark fs-6 mb-1">
+                              36
+                            </h6>
                           </div>
                         </div>
-                        <h5 className="card-title mb-9 fw-semibold d-flex justify-content-center">
-                          progress to goal
-                        </h5>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Monthly Earnings */}
-                </div>
-                <div className="col-lg-12 d-flex align-items-stretch">
-                  <div className="card w-100">
-                    <div className="card-body">
-                      <div className="row align-items-center ">
-                        <div className="col-md-12 justify-content-center">
-                          <Circle />
+                        <div className="d-flex align-items-center mb-4">
+                          <div className="text-bg-light rounded me-2 p-1 d-flex align-items-center justify-content-center">
+                            <i className="ti ti-grid-dots text-muted fs-6" />
+                          </div>
+                          <div>
+                            <p className="fs-6 mb-1 fw-normal">
+                              Total Certificates
+                            </p>
+                            <h6 className="fw-semibold text-dark fs-6 mb-1">
+                              52
+                            </h6>
+                          </div>
+                        </div>
+                        <div className="d-flex align-items-center mb-4">
+                          <div className="text-bg-light rounded me-2 p-1 d-flex align-items-center justify-content-center">
+                            <i className="ti ti-grid-dots text-muted fs-6" />
+                          </div>
+                          <div>
+                            <p className="fs-6 mb-1 fw-normal">
+                              Learning Hours
+                            </p>
+                            <h6 className="fw-semibold text-dark fs-6 mb-1">
+                              120 Hrs
+                            </h6>
+                          </div>
+                        </div>
+                        <div className="d-flex align-items-center">
+                          <div className="text-bg-light rounded me-2 p-1 d-flex align-items-center justify-content-center">
+                            <i className="ti ti-grid-dots text-muted fs-6" />
+                          </div>
+                          <div>
+                            <p className="fs-6 mb-0 fw-normal">Mentor Hours</p>
+                            <h6 className="fw-semibold text-dark fs-6 mb-0">
+                              98 Hrs
+                            </h6>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+
                 <div className="col-lg-4 d-flex align-items-stretch">
-                  <div className="card w-100">
+                  <div
+                    className="card w-100"
+                    style={{ maxHeight: "400px", overflow: "hidden" }}
+                  >
                     <div className="card-body">
                       <div>
                         <h5 className="card-title fw-semibold mb-1">
-                          Employee Salary
+                          Potential Career Position
                         </h5>
-                        <p className="card-subtitle mb-0">Every month</p>
+                        <p className="card-subtitle mb-n2">July 2025</p>
                         <div id="salary" className="mb-7 pb-8 mx-n4" />
                         <div className="d-flex align-items-center justify-content-between">
-                          <div className="d-flex align-items-center">
-                            <div className="bg-primary-subtle rounded me-8 p-8 d-flex align-items-center justify-content-center">
-                              <i className="ti ti-grid-dots text-primary fs-6" />
-                            </div>
-                            <div>
-                              <p className="fs-3 mb-0 fw-normal">Salary</p>
-                              <h6 className="fw-semibold text-dark fs-4 mb-0">
-                                $36,358
-                              </h6>
-                            </div>
-                          </div>
-                          <div className="d-flex align-items-center">
+                          <div className="d-flex align-items-center mt-n4">
                             <div className="text-bg-light rounded me-8 p-8 d-flex align-items-center justify-content-center">
                               <i className="ti ti-grid-dots text-muted fs-6" />
                             </div>
                             <div>
-                              <p className="fs-3 mb-0 fw-normal">Profit</p>
-                              <h6 className="fw-semibold text-dark fs-4 mb-0">
-                                $5,296
+                              <p className="fs-3 mb-0 fw-normal">
+                                Highest Salary
+                              </p>
+                              <h6 className="fw-semibold text-dark fs-5 mb-1">
+                                ₹3.5 Cr
+                              </h6>
+                            </div>
+                          </div>
+                          <div className="d-flex align-items-center mt-n4">
+                            <div className="text-bg-light rounded me-8 p-8 d-flex align-items-center justify-content-center">
+                              <i className="ti ti-grid-dots text-muted fs-6" />
+                            </div>
+                            <div>
+                              <p className="fs-3 mb-0 fw-normal">
+                                Average Salary
+                              </p>
+                              <h6 className="fw-semibold text-dark fs-5 mb-0">
+                                ₹50 LPA
                               </h6>
                             </div>
                           </div>
@@ -96,17 +201,20 @@ function Dashboard() {
                     </div>
                   </div>
                 </div>
+
                 <div className="col-lg-4 d-flex align-items-stretch flex-column">
                   <div className="row">
                     {/* Customers */}
                     <div className="col-sm-6 d-flex align-items-stretch">
                       <div className="card w-100">
                         <div className="card-body pb-0 mb-xxl-4 pb-1">
-                          <p className="mb-1 fs-3">Customers</p>
-                          <h4 className="fw-semibold fs-7">36,358</h4>
+                          <p className="mb-1 fs-3">
+                            Best Potential Salary Package
+                          </p>
+                          <h4 className="fw-semibold fs-7">₹19.3 LPA</h4>
                           <div className="d-flex align-items-center mb-3">
-                            <span className="me-2 rounded-circle bg-danger-subtle round-20 d-flex align-items-center justify-content-center">
-                              <i className="ti ti-arrow-down-right text-danger" />
+                            <span className="me-1 rounded-circle bg-success-subtle round-20 d-flex align-items-center justify-content-center">
+                              <i className="ti ti-arrow-up-left text-success" />
                             </span>
                             <p className="text-dark fs-3 mb-0">+9%</p>
                           </div>
@@ -118,8 +226,8 @@ function Dashboard() {
                     <div className="col-sm-6 d-flex align-items-stretch">
                       <div className="card w-100">
                         <div className="card-body">
-                          <p className="mb-1 fs-3">Projects</p>
-                          <h4 className="fw-semibold fs-7">78,298</h4>
+                          <p className="mb-1 fs-3">Average Salary Package</p>
+                          <h4 className="fw-semibold fs-7">₹8.3 LPA</h4>
                           <div className="d-flex align-items-center mb-3">
                             <span className="me-1 rounded-circle bg-success-subtle round-20 d-flex align-items-center justify-content-center">
                               <i className="ti ti-arrow-up-left text-success" />
@@ -132,7 +240,7 @@ function Dashboard() {
                     </div>
                   </div>
                   {/* Comming Soon */}
-                  <div className="card">
+                  {/* <div className="card">
                     <div className="card-body">
                       <div className="d-flex align-items-center mb-7 pb-2">
                         <div className="me-3 pe-1">
@@ -205,9 +313,9 @@ function Dashboard() {
                         </a>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
-                <div className="col-lg-4 d-flex align-items-stretch">
+                {/* <div className="col-lg-4 d-flex align-items-stretch">
                   <div className="card text-bg-primary border-0 w-100">
                     <div className="card-body pb-0">
                       <h5 className="fw-semibold mb-1 text-white card-title">
@@ -275,8 +383,8 @@ function Dashboard() {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-lg-4 d-flex align-items-stretch">
+                </div> */}
+                {/* <div className="col-lg-4 d-flex align-items-stretch">
                   <div className="card w-100">
                     <div className="card-body">
                       <h5 className="card-title fw-semibold">Weekly Stats</h5>
@@ -340,8 +448,8 @@ function Dashboard() {
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-lg-8 d-flex align-items-stretch">
+                </div> */}
+                {/* <div className="col-lg-8 d-flex align-items-stretch">
                   <div className="card w-100">
                     <div className="card-body">
                       <div className="d-sm-flex d-block align-items-center justify-content-between mb-7">
@@ -550,16 +658,16 @@ function Dashboard() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
         </div>
         {/*  Search Bar */}
-        <SearchBar />
+        {/* <SearchBar /> */}
       </div>
       <div className="dark-transparent sidebartoggler"></div>
     </>
   );
-}
+};
 export default Dashboard;

@@ -11,6 +11,7 @@ import ServicePropOne from "../component/service/ServicePropOne";
 import SectionTitle from "../elements/section-title/SectionTitle";
 import BannerFive from "../component/banner/BannerFive";
 import HeaderFour from "../common/header/HeaderFour";
+import Chatbot from "../pages/Chatbot";
 
 const CorporateAgency = () => {
   return (
@@ -20,6 +21,7 @@ const CorporateAgency = () => {
       <main className="main-wrapper">
         <HeaderFour />
         <BannerFive />
+        <Chatbot/>
 
         <div className="section section-padding">
           <div className="container">
@@ -65,6 +67,7 @@ const CorporateAgency = () => {
         <BlogOne />
         <CtaLayoutOne />
         <FooterOne />
+
       </main>
     </>
   );

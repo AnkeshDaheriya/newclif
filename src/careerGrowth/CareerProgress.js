@@ -704,13 +704,13 @@ const CareerProgress = () => {
                           <ChevronRight
                             className={`h-4 w-4 ${
                               selectedKey === key ? "rotate-90" : ""
-                            }`}
-                          />
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                                                    }`}
+                                            />
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
 
                 <div className="col-md-8">
                   <div className="bg-white p-4 rounded shadow-sm">
