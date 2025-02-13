@@ -45,7 +45,8 @@ import CareerPath from "./dashboard/pages/CareerPath";
 
 import "./assets/scss/app.scss";
 import SkillAssessment from "./dashboard/pages/SkillAssessment";
-import MileStone1 from "./milstones/MileStone1";
+import MileStone1 from "./milStones/MileStone1.js"
+import CareerProgress from "./careerGrowth/CareerProgress.js";
 
 const App = () => {
   return (
@@ -94,6 +95,8 @@ const App = () => {
           <Route path="/skillassessment" element={<SkillAssessment />} />
           <Route path="/careerpath" element={<CareerPath />} />
           <Route path="/mile-stone1" element={<MileStone1/>} />
+          <Route path="/career-growth" element = {<CareerProgress />} />
+          <Route path="/career-growth/:id" element = {<CareerProgress />} />
         </Routes>
       </ScrollToTop>
     </BrowserRouter>
