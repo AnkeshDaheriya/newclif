@@ -29,13 +29,13 @@ const SideBar = () => {
               { icon: "fas fa-chart-bar", text: "Skill Assessment", link: "/skillassessment" },
               { icon: "fas fa-road", text: "MileStone", link: "/mile-stone1" },
               { icon: "fas fa-folder-open", text: "Portfolio", link: "/main/index3.html" }, // Updated icon
-              { icon: "fas fa-user", text: "Mentor", link: "/main/index4.html" }, // Updated icon
+              { icon: "fas fa-user", text: "Mentor", link: "/mentor" }, // Updated icon
               { icon: "fas fa-road", text: "Career Path", link: "/careerpath" },
               { icon: "fas fa-briefcase", text: "Jobs", link: "/main/index6.html" },
               { icon: "fas fa-graduation-cap", text: "Learn", link: "/main/index6.html" },
               { icon: "fas fa-file-alt", text: "Resume & Letter", link: "/main/index6.html" },
-              { icon: "fas fa-users", text: "Groups", link: "/main/index6.html" },
-              { icon: "fas fa-user", text: "Profile", link: "/main/index6.html" },
+              { icon: "fas fa-users", text: "Groups", link: "/groups" },
+              { icon: "fas fa-user", text: "Profile", link: "/profile" },
               { icon: "fas fa-cog", text: "Settings", link: "/main/index6.html" },
               { icon: "fas fa-question-circle", text: "Help & Support", link: "/main/index6.html" }
             ].map((item, index) => (
