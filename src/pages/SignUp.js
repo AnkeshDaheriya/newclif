@@ -52,6 +52,116 @@ const SignUp = () => {
   const [googleVerified, setGoogleVerified] = useState(false);
   const [resumeFile, setResumeFile] = useState(null);
 
+  const handleResumeSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+
+    if (!resumeFile) {
+      setFormErrors((prev) => ({
+        ...prev,
+        resume: "Please upload a resume.",
+      }));
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("resume", resumeFile); // Add the resume file to FormData
+
+    try {
+      // Make the API call to upload the resume
+      const response = await fetch(`${API_BASE_URL}/resume/upload`, {
+        method: "POST",
+        body: formData, // Send the FormData containing the resume file
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to process resume. Status: ${response.status}`);
+      }
+
+      const resumeData = await response.json();
+      console.log("Resume Data:", resumeData); // Log the entire response
+
+      if (!resumeData.success || !resumeData.extractedText) {
+        throw new Error("Resume processing failed. No extracted data found.");
+      }
+
+      // Extracting data from the resume response
+      const extractedText = resumeData.extractedText;
+      const {
+        Education = [],
+        skills = {},
+        experience = [],
+        personal_info = {},
+      } = extractedText;
+
+      // Log extracted information
+      console.log("Extracted Text:", extractedText);
+
+      // Extract personal information
+      const firstName = personal_info?.name || "";
+      const lastName = personal_info?.fatherName || ""; // Assuming father’s name as last name
+      const email = personal_info?.email || "";
+      const phone_no = personal_info?.phone || "";
+      const current_location = personal_info?.location?.city || "";
+
+      console.log("Extracted Name:", firstName, lastName);
+
+      // Get the latest education
+      const latestEducation =
+        Education.find((edu) => edu.degree?.toLowerCase() === "mca") ||
+        Education[0] ||
+        {};
+
+      // Determine education level
+      let educationLevel = "Others";
+      if (latestEducation?.degree?.toLowerCase() === "bsc") {
+        educationLevel = "Bachelors";
+      } else if (latestEducation?.degree?.toLowerCase() === "mca") {
+        educationLevel = "Masters";
+      }
+
+      // Calculate age if DOB is available
+      const age =
+        personal_info?.DOB && !isNaN(new Date(personal_info.DOB).getFullYear())
+          ? new Date().getFullYear() - new Date(personal_info.DOB).getFullYear()
+          : "";
+
+      // Update form values with extracted data
+      setFormValues((prev) => ({
+        ...prev,
+        firstname: firstName,
+        lastname: lastName,
+        email: email,
+        phone_no: phone_no,
+        current_location: current_location,
+
+        // Education
+        education: educationLevel,
+        yearOfCompletion: latestEducation?.year || prev.yearOfCompletion, // Extracting the year
+        specialization: latestEducation?.field || prev.specialization, // Field of study
+
+        // Skills
+        professionalDomain:
+          skills?.technical_skills?.length > 0
+            ? "Technology"
+            : prev.professionalDomain,
+
+        // Additional Info
+        age: age,
+        gender: personal_info?.gender || prev.gender,
+      }));
+      console.log("test for dtata", formValues);
+
+      setLoginSent(true);
+      return resumeData?.fileUrl || null;
+    } catch (error) {
+      console.error("Error during resume submission:", error.message);
+      setFormErrors((prev) => ({
+        ...prev,
+        resume: "Failed to submit resume. Please try again.",
+      }));
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (files && files[0]) {
@@ -99,93 +209,6 @@ const SignUp = () => {
 
   const handleFileChange = (e) => {
     setResumeFile(e.target.files[0]);
-  };
-
-  const handleResumeSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-
-    if (!resumeFile) {
-      setFormErrors((prev) => ({
-        ...prev,
-        resume: "Please upload a resume.",
-      }));
-      return;
-    }
-    const formData = new FormData();
-    formData.append("resume", resumeFile); // Add the resume file to FormData
-
-    try {
-      // Make the API call to upload the resume
-      const response = await fetch(`${API_BASE_URL}/resume/upload`, {
-        method: "POST",
-        body: formData, // Send the FormData containing the resume file
-      });
-      if (!response.ok) {
-        throw new Error("Failed to process resume");
-      }
-
-      const resumeData = await response.json();
-
-      // Assuming the API returns the extracted data like this
-      const { Education, Skills } = resumeData;
-
-      const personalInfo = Skills?.personal_information || {};
-
-      // Get the latest education
-      const latestEducation =
-        Education?.sort((a, b) => b.end_year - a.end_year)[0] || {};
-      // Update form values with extracted data, if available
-      setFormValues((prev) => ({
-        ...prev,
-        // Personal Information
-        firstname: personalInfo.name?.split(" ")[0] || prev.firstname,
-        lastname:
-          personalInfo.name?.split(" ").slice(1).join(" ") || prev.lastname,
-        email: personalInfo.contact?.email || prev.email,
-        phone_no: personalInfo.contact?.phone || prev.phone_no,
-        current_location:
-          personalInfo.contact?.address || prev.current_location,
-
-        // Education
-        education: latestEducation?.degree?.includes("BSC")
-          ? "Bachelors"
-          : latestEducation?.degree?.includes("MCA")
-          ? "Masters"
-          : prev.education,
-        yearOfCompletion:
-          latestEducation?.end_year?.toString() || prev.yearOfCompletion,
-        specialization:
-          latestEducation?.degree?.split("in")[1]?.trim() ||
-          prev.specialization,
-
-        // Skills
-        professionalDomain:
-          Skills?.technical?.length > 0
-            ? "Technology"
-            : prev.professionalDomain,
-
-        // Additional Info
-        age:
-          Skills?.other
-            ?.find((item) => item.includes("DOB"))
-            ?.split(":")[1]
-            ?.trim() || prev.age,
-        gender:
-          Skills?.other
-            ?.find((item) => item.includes("Gender"))
-            ?.split(":")[1]
-            ?.trim() || prev.gender,
-      }));
-      setLoginSent(true);
-      // Return file URL
-      return resumeData?.fileUrl || null;
-    } catch (error) {
-      console.error("Error during resume submission:", error);
-      setFormErrors((prev) => ({
-        ...prev,
-        resume: "Failed to submit resume. Please try again.",
-      }));
-    }
   };
 
   const handleSubmit = async (e) => {
@@ -601,7 +624,6 @@ const SignUp = () => {
                             <p className="text-red">{formErrors.headshot}</p>
                           </div>
                         </div>
-
                         <div className="row">
                           {/* Age Range */}
                           <div className="col-lg-4">
@@ -665,6 +687,7 @@ const SignUp = () => {
                                       id={`gender${index}`}
                                       name="gender"
                                       value={gender}
+                                      checked={formValues.gender === gender}
                                       onChange={handleChange}
                                       className="form-check-input"
                                       required
@@ -681,66 +704,6 @@ const SignUp = () => {
                             <p className="text-red">{formErrors.gender}</p>
                           </div>
                         </div>
-
-                        <div className="row">
-                          {/* Current Employer */}
-                          <div className="col-lg-4">
-                            <div className="form-group">
-                              <label>Current Employer *</label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Current Employer"
-                                name="current_employer"
-                                value={formValues.current_employer}
-                                onChange={handleChange}
-                                required
-                              />
-                            </div>
-                            <p className="text-red">
-                              {formErrors.current_employer}
-                            </p>
-                          </div>
-
-                          {/* Desired Employer */}
-                          <div className="col-lg-4">
-                            <div className="form-group">
-                              <label>Desired Employer *</label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Desired Employer"
-                                name="desired_employer"
-                                value={formValues.desired_employer}
-                                onChange={handleChange}
-                                required
-                              />
-                            </div>
-                            <p className="text-red">
-                              {formErrors.desired_employer}
-                            </p>
-                          </div>
-
-                          {/* Current Location */}
-                          <div className="col-lg-4">
-                            <div className="form-group">
-                              <label>Current Location</label>
-                              <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Current Location"
-                                name="current_location"
-                                value={formValues.current_location}
-                                onChange={handleChange}
-                                required
-                              />
-                            </div>
-                            <p className="text-red">
-                              {formErrors.current_location}
-                            </p>
-                          </div>
-                        </div>
-
                         <div className="row">
                           {/* Highest Level of Education */}
                           <div className="col-lg-4">
@@ -811,101 +774,25 @@ const SignUp = () => {
                             </p>
                           </div>
                         </div>
-
                         <div className="row">
                           <div className="col-lg-4">
                             <div className="form-group">
-                              <label>Desired Location Country *</label>
-                              <select
-                                name="desiredLocationCountry"
+                              <label>Current Employer *</label>
+                              <input
+                                type="text"
                                 className="form-control"
-                                value={formValues.desiredLocationCountry}
+                                placeholder="Current Employer"
+                                name="current_employer"
+                                value={formValues.current_employer}
                                 onChange={handleChange}
-                                required>
-                                <option value="" disabled>
-                                  Select country
-                                </option>
-                                <option value="Undergrad">Undergrad</option>
-                                <option value="Bachelors">Bachelors</option>
-                                <option value="Masters">Masters</option>
-                                <option value="Doctorate">Doctorate</option>
-                              </select>
-                              {formErrors.desiredLocationCountry && (
-                                <p className="text-red">
-                                  {formErrors.desiredLocationCountry}
-                                </p>
-                              )}
+                                required
+                              />
                             </div>
+                            <p className="text-red">
+                              {formErrors.current_employer}
+                            </p>
                           </div>
-
                           <div className="col-lg-4">
-                            <div className="form-group">
-                              <label>Desired Location City *</label>
-                              <select
-                                name="desiredLocationCity"
-                                className="form-control"
-                                value={formValues.desiredLocationCity}
-                                onChange={handleChange}
-                                required>
-                                <option value="" disabled>
-                                  Select city
-                                </option>
-                                {Array.from(
-                                  { length: 2024 - 1950 + 1 },
-                                  (_, i) => 2024 - i
-                                ).map((year) => (
-                                  <option key={year} value={year}>
-                                    {year}
-                                  </option>
-                                ))}
-                              </select>
-                              {formErrors.desiredLocationCity && (
-                                <p className="text-red">
-                                  {formErrors.desiredLocationCity}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-
-                          <div className="col-lg-4">
-                            <div className="form-group">
-                              <label>Professional Domain *</label>
-                              <select
-                                name="professionalDomain"
-                                className="form-control"
-                                value={formValues.professionalDomain}
-                                onChange={handleChange}
-                                required>
-                                <option value="" disabled>
-                                  Select Your Professional Domain
-                                </option>
-                                <option value="Technology">Technology</option>
-                                <option value="Management">Management</option>
-                                <option value="Finance">Finance</option>
-                                <option value="Content Creator">
-                                  Content Creator
-                                </option>
-                                <option value="Entrepreneurship">
-                                  Entrepreneurship
-                                </option>
-                                <option value="Business Intelligence">
-                                  Business Intelligence
-                                </option>
-                                <option value="Venture Capital">
-                                  Venture Capital
-                                </option>
-                              </select>
-                              {formErrors.professionalDomain && (
-                                <p className="text-red">
-                                  {formErrors.professionalDomain}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="row">
-                          <div className="col-lg-6">
                             <div className="form-group">
                               <label>Current Role *</label>
                               <select
@@ -952,7 +839,7 @@ const SignUp = () => {
                             </div>
                           </div>
 
-                          <div className="col-lg-6">
+                          <div className="col-lg-4">
                             <div className="form-group">
                               <label>Current Salary *</label>
                               <input
@@ -971,9 +858,83 @@ const SignUp = () => {
                             </div>
                           </div>
                         </div>
-
                         <div className="row">
+                          {/* Current Employer */}
                           <div className="col-lg-6">
+                            <div className="form-group">
+                              <label>Professional Domain *</label>
+                              <select
+                                name="professionalDomain"
+                                className="form-control"
+                                value={formValues.professionalDomain}
+                                onChange={handleChange}
+                                required>
+                                <option value="" disabled>
+                                  Select Your Professional Domain
+                                </option>
+                                <option value="Technology">Technology</option>
+                                <option value="Management">Management</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Content Creator">
+                                  Content Creator
+                                </option>
+                                <option value="Entrepreneurship">
+                                  Entrepreneurship
+                                </option>
+                                <option value="Business Intelligence">
+                                  Business Intelligence
+                                </option>
+                                <option value="Venture Capital">
+                                  Venture Capital
+                                </option>
+                              </select>
+                              {formErrors.professionalDomain && (
+                                <p className="text-red">
+                                  {formErrors.professionalDomain}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Current Location */}
+                          <div className="col-lg-6">
+                            <div className="form-group">
+                              <label>Current Location</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Current Location"
+                                name="current_location"
+                                value={formValues.current_location}
+                                onChange={handleChange}
+                                required
+                              />
+                            </div>
+                            <p className="text-red">
+                              {formErrors.current_location}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="row">
+                          {/* Desired Employer */}
+                          <div className="col-lg-4">
+                            <div className="form-group">
+                              <label>Desired Employer *</label>
+                              <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Desired Employer"
+                                name="desired_employer"
+                                value={formValues.desired_employer}
+                                onChange={handleChange}
+                                required
+                              />
+                            </div>
+                            <p className="text-red">
+                              {formErrors.desired_employer}
+                            </p>
+                          </div>
+                          <div className="col-lg-4">
                             <div className="form-group">
                               <label>Desired Role *</label>
                               <select
@@ -1020,7 +981,7 @@ const SignUp = () => {
                             </div>
                           </div>
 
-                          <div className="col-lg-6">
+                          <div className="col-lg-4">
                             <div className="form-group">
                               <label>Desired Salary *</label>
                               <input
@@ -1039,7 +1000,81 @@ const SignUp = () => {
                             </div>
                           </div>
                         </div>
+                        <div className="row">
+                          <div className="col-lg-6">
+                            <div className="form-group">
+                              <label>Desired Location Country *</label>
+                              <select
+                                name="desiredLocationCountry"
+                                className="form-control"
+                                value={formValues.desiredLocationCountry}
+                                onChange={handleChange}
+                                required>
+                                <option value="" disabled>
+                                  Select country
+                                </option>
+                                {[
+                                  "India",
+                                  "United States",
+                                  "United Kingdom",
+                                  "Canada",
+                                  "Australia",
+                                  "Germany",
+                                  "France",
+                                  "Singapore",
+                                  "Japan",
+                                  "UAE",
+                                ].map((country) => (
+                                  <option key={country} value={country}>
+                                    {country}
+                                  </option>
+                                ))}
+                              </select>
+                              {formErrors.desiredLocationCountry && (
+                                <p className="text-red">
+                                  {formErrors.desiredLocationCountry}
+                                </p>
+                              )}
+                            </div>
+                          </div>
 
+                          <div className="col-lg-6">
+                            <div className="form-group">
+                              <label>Desired Location City *</label>
+                              <select
+                                name="desiredLocationCity"
+                                className="form-control"
+                                value={formValues.desiredLocationCity}
+                                onChange={handleChange}
+                                required>
+                                <option value="" disabled>
+                                  Select city
+                                </option>
+                                {[
+                                  "Mumbai",
+                                  "Delhi",
+                                  "Bangalore",
+                                  "Hyderabad",
+                                  "Ahmedabad",
+                                  "Chennai",
+                                  "Kolkata",
+                                  "Pune",
+                                  "Jaipur",
+                                  "Lucknow",
+                                ].map((city) => (
+                                  <option key={city} value={city}>
+                                    {city}
+                                  </option>
+                                ))}
+                              </select>
+                              {formErrors.desiredLocationCity && (
+                                <p className="text-red">
+                                  {formErrors.desiredLocationCity}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </div>
                         <div className="row">
                           <div className="col-lg-6">
                             <div className="form-group">
@@ -1079,7 +1114,6 @@ const SignUp = () => {
                             </div>
                           </div>
                         </div>
-
                         <div className="form-group">
                           <button
                             name="submit-btn"
