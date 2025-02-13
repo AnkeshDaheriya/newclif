@@ -25,7 +25,7 @@
     "react-router-dom": "^6.2.1",
     "react-slick": "^0.29.0",
     "react-tilty": "^2.0.3",
-    "recharts": "^2.13.3",
+    "recharts": "^2.15.1",
     "web-vitals": "^2.1.2"
   },
   "scripts": {

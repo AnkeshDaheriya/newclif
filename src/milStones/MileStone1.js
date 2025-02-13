@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+// import LeftSidebar from "../componant/LeftSidebar";
+// import Navigation from "../componant/Navigation";
+// import SerchBar from "../componant/SearchBar";
 import { Loader2 } from "lucide-react";
 // import API_BASE_URL from "./../componant/config";
 import axios from "axios";
 import SideBar from "../dashboard/common/SideBar";
 import Header from "../dashboard/common/Header";
+import CareerProgress from "../careerGrowth/CareerProgress";
 // import BecomeUnicorn from "./BecomeUnicorn";
-import RoadMapSvg from "../assets/svgs/roadMap"
 const MileStone1 = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -101,7 +104,7 @@ const MileStone1 = () => {
           <div className="body-wrapper">
             <div className="container-fluid">
               <div className="min-h-screen bg-gray-50 py-8">
-                <RoadMapSvg/>
+                <CareerProgress/>
               </div>
             </div>
           </div>
