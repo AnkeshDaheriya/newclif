@@ -6,7 +6,7 @@ import axios from "axios";
 import SideBar from "../dashboard/common/SideBar";
 import Header from "../dashboard/common/Header";
 // import BecomeUnicorn from "./BecomeUnicorn";
-import RoadMapSvg from "../assets/svgs/roadMap"
+import RoadMapSvg from "../assets/svgs/roadMap";
 const MileStone1 = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -63,10 +63,10 @@ const MileStone1 = () => {
 
   const fetchData = async () => {
     try {
-    //   const response = await axios.get(
-    //    ` https://app.incubationmasters.com:5000/api/unicorn/${startup_id}`
-    //   );
-    // setError("Hola this is mileStone 1 page");
+      //   const response = await axios.get(
+      //    ` https://app.incubationmasters.com:5000/api/unicorn/${startup_id}`
+      //   );
+      // setError("Hola this is mileStone 1 page");
       setLoading(false);
     } catch (err) {
       setError("Failed to fetch data");
@@ -94,14 +94,14 @@ const MileStone1 = () => {
     <>
       <div id="main-wrapper" className={isActive ? "show-sidebar" : ""}>
         {/* Sidebar Start */}
-            <SideBar onButtonClick={ToggleEvent}/>
+        <SideBar onButtonClick={ToggleEvent} />
         {/*  Sidebar End */}
         <div className="page-wrapper">
           <Header onButtonClick={ToggleEvent} />
           <div className="body-wrapper">
             <div className="container-fluid">
               <div className="min-h-screen bg-gray-50 py-8">
-                <RoadMapSvg/>
+                <RoadMapSvg />
               </div>
             </div>
           </div>
@@ -111,6 +111,6 @@ const MileStone1 = () => {
       <div className="dark-transparent sidebartoggler" />
     </>
   );
-}
+};
 
 export default MileStone1;
