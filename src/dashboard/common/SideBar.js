@@ -23,7 +23,7 @@ const SideBar = () => {
 
         {/* Navigation */}
         <nav className="sidebar-nav">
-          <ul className="nav-list list-unstyled">
+          <ul className="nav-list list-unstyled d-flex flex-column gap-3">
             {[
               { icon: "fas fa-tachometer-alt", text: "Dashboard", link: "/dashboard" },
               { icon: "fas fa-chart-bar", text: "Skill Assessment", link: "/skillassessment" },
