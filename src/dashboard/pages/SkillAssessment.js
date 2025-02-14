@@ -70,7 +70,7 @@ const SkillAssessment = () => {
                                 style={{
                                     color: customStyles.mainColor,
                                     fontWeight: 600,
-                                    fontSize: '2.5rem'
+                                    fontSize: '2rem'
                                 }}
                             >
                                 Skills Assessment
@@ -147,7 +147,7 @@ const SkillAssessment = () => {
                     </div>
 
                     {/* Enrolled Courses Section */}
-                    <h3
+                    <h4
                         className="mb-4"
                         style={{
                             color: customStyles.accentColor,
@@ -155,7 +155,7 @@ const SkillAssessment = () => {
                         }}
                     >
                         Enrolled Courses
-                    </h3>
+                    </h4>
                     <div className="row">
                         {enrolledCourses.map(course => (
                             <div key={course.id} className="col-md-4 mb-4">
