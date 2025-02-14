@@ -48,6 +48,10 @@ import MileStone1 from "./milstones/MileStone1";
 import Mentor from "./dashboard/pages/Mentor";
 import Profile from "./dashboard/pages/Profile";
 import Groups from "./dashboard/pages/Groups";
+import Learn from "./dashboard/pages/Learn";
+import Jobs from "./dashboard/pages/Jobs";
+import HelpCenter from "./dashboard/pages/HelpCenter";
+import Settings  from "./dashboard/pages/Settings";
 
 const App = () => {
   return (
@@ -99,6 +103,10 @@ const App = () => {
           <Route path="/mentor" element={<Mentor />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/groups" element={<Groups />} />
+          <Route path="/learn" element={<Learn />} />
+          <Route path="/jobs" element={<Jobs />} />
+          <Route path="/helpcenter" element={<HelpCenter />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
       </ScrollToTop>
     </BrowserRouter>
