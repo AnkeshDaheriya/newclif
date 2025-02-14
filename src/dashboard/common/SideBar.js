@@ -23,21 +23,21 @@ const SideBar = () => {
 
         {/* Navigation */}
         <nav className="sidebar-nav">
-          <ul className="nav-list list-unstyled">
+          <ul className="nav-list list-unstyled d-flex flex-column gap-3">
             {[
               { icon: "fas fa-tachometer-alt", text: "Dashboard", link: "/dashboard" },
               { icon: "fas fa-chart-bar", text: "Skill Assessment", link: "/skillassessment" },
-              { icon: "fas fa-road", text: "MileStone", link: "/mile-stone1" },
+              { icon: "fas fa-road", text: "Career Path", link: "/mile-stone1" },
               { icon: "fas fa-folder-open", text: "Portfolio", link: "/main/index3.html" }, // Updated icon
               { icon: "fas fa-user", text: "Mentor", link: "/mentor" }, // Updated icon
-              { icon: "fas fa-road", text: "Career Path", link: "/careerpath" },
-              { icon: "fas fa-briefcase", text: "Jobs", link: "/main/index6.html" },
-              { icon: "fas fa-graduation-cap", text: "Learn", link: "/main/index6.html" },
+              // { icon: "fas fa-road", text: "Career Path", link: "/careerpath" },
+              { icon: "fas fa-briefcase", text: "Jobs", link: "/jobs" },
+              { icon: "fas fa-graduation-cap", text: "Learn", link: "/learn" },
               { icon: "fas fa-file-alt", text: "Resume & Letter", link: "/main/index6.html" },
-              { icon: "fas fa-users", text: "Groups", link: "/groups" },
+              // { icon: "fas fa-users", text: "Groups", link: "/groups" },
               { icon: "fas fa-user", text: "Profile", link: "/profile" },
-              { icon: "fas fa-cog", text: "Settings", link: "/main/index6.html" },
-              { icon: "fas fa-question-circle", text: "Help & Support", link: "/main/index6.html" }
+              { icon: "fas fa-cog", text: "Settings", link: "/settings" },
+              { icon: "fas fa-question-circle", text: "Help & Support", link: "/helpcenter" }
             ].map((item, index) => (
               <li className="nav-item" key={index}>
                 <a className="nav-link" href={item.link}>
@@ -50,7 +50,7 @@ const SideBar = () => {
         </nav>
 
         {/* Profile Section */}
-        <div className="profile-section">
+        <div className="profile-sections">
           <div className="d-flex align-items-center gap-3 p-3">
             <div className="profile-image">
               <img

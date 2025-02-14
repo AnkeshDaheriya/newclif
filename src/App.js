@@ -41,10 +41,13 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfUse from "./pages/TermsOfUse";
 import Resource from "./pages/Resource";
 import Dashboard from "./dashboard/pages/Dashboard";
-import CareerPath from "./dashboard/pages/CareerPath";
+// import CareerPath from "./dashboard/pages/CareerPath";
 import "./assets/scss/app.scss";
 import SkillAssessment from "./dashboard/pages/SkillAssessment";
 import MileStone1 from "./milstones/MileStone1";
+import Mentor from "./dashboard/pages/Mentor";
+import Profile from "./dashboard/pages/Profile";
+import Groups from "./dashboard/pages/Groups";
 
 const App = () => {
   return (
@@ -91,8 +94,11 @@ const App = () => {
           {/* dashboard routes */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/skillassessment" element={<SkillAssessment />} />
-          <Route path="/careerpath" element={<CareerPath />} />
+          {/* <Route path="/careerpath" element={<CareerPath />} /> */}
           <Route path="/mile-stone1" element={<MileStone1 />} />
+          <Route path="/mentor" element={<Mentor />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/groups" element={<Groups />} />
         </Routes>
       </ScrollToTop>
     </BrowserRouter>
